@@ -6,7 +6,8 @@ const MainDiv = styled.div`
   display: flex;
   height: 100vh;
   background-color: #222831;
-  font-family: "Times New Roman", Times, serif; /* Set font to Times New Roman */
+  font-family: "Times New Roman", Times, serif;
+  /* Set font to Times New Roman */
 `;
 
 const SideBanner = styled.div`
@@ -174,6 +175,45 @@ const LogInFormSignup = styled.div`
 
   
 const LogIn = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [submissionMessage, setSubmissionMessage] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Send form data to the API
+    try {
+      const response = await fetch("http://localhost:8000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData), // Send form data as JSON
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result); // You can handle the response data (like a token) here
+        setSubmissionMessage("Login successful!");
+      } else {
+        const error = await response.json();
+        console.log(error);
+        setSubmissionMessage("Login failed. Please check your credentials.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setSubmissionMessage("Something went wrong. Please try again.");
+    }
+  };
+
   return (
     <MainDiv>
       <SideBanner>
@@ -185,38 +225,51 @@ const LogIn = () => {
             <img src="..\assets\Desktop.png" alt="Desktop" />
           </SideBannerMockup>
           <SideBannerText>
-            <p>
-              Your go to Task manager!
-            </p>
+            <p>Your go-to Task manager!</p>
           </SideBannerText>
         </SideContainer>
       </SideBanner>
 
       <LogInForm>
-        <LogInFormContainer>
+        <LogInFormContainer onSubmit={handleSubmit}>
           <LogInFormTitle>
             <h1>Welcome Back!</h1>
           </LogInFormTitle>
           <LogFormInputs>
             <Inputs>
-              <input type="email" name="email" placeholder="Email" />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+              />
             </Inputs>
             <Inputs>
-              <input type="password" name="password" placeholder="Password" />
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+              />
             </Inputs>
           </LogFormInputs>
+          {submissionMessage && <p>{submissionMessage}</p>}
+
           <LogInFormButton>
             <button type="submit">Log In</button>
           </LogInFormButton>
           <LogInFormSignup>
             <p>
-              Don't have an account? <span className="highlighted">Sign Up</span>
+              Don't have an account?{" "}
+              <span className="highlighted">Sign Up</span>
             </p>
           </LogInFormSignup>
         </LogInFormContainer>
       </LogInForm>
     </MainDiv>
-  )
-}
+  );
+};
 
 export default LogIn;
