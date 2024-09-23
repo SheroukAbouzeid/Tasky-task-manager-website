@@ -9,10 +9,10 @@ const router = Router();
 router.post("/register", async (req, res) => {
   try {
 
-    const { firstname, lastname, email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
 
     // Validate input 
-    if (!firstname || !lastname || !email || !password) {
+    if (!firstName || !lastName || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
     } // validate on the frontend for each specfic field
 
@@ -30,8 +30,8 @@ router.post("/register", async (req, res) => {
 
     // Create a new user
     const newUser = new Users({
-      firstname,
-      lastname,
+      firstName,
+      lastName,
       email,
       password: hashedPassword, // Save the hashed password
     });

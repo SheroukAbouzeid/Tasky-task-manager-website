@@ -186,11 +186,34 @@ const Register = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    setSubmissionMessage("Got your response!");
+
+    // Send form data to the API
+    try {
+      const response = await fetch("http://localhost:8000/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData), // Send form data as JSON
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result); // You can handle the response data here
+        setSubmissionMessage("Registration successful!");
+      } else {
+        const error = await response.json();
+        console.log(error);
+        setSubmissionMessage("Registration failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setSubmissionMessage("Something went wrong. Please try again.");
+    }
   };
+
 
   return (
     <MainDiv>
