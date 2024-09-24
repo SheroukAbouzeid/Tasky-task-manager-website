@@ -1,12 +1,11 @@
-import Home from "./pages/Home";
+import LandingPage from "./pages/LandingPage";
 import Register from "./pages/Register";
 
 function App() {
-  return <div>
-
-    <Register />
+  return <>
+    <LandingPage />
     
-  </div>;
+  </>;
 }
 
 export default App;
