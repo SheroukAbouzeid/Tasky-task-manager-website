@@ -20,6 +20,8 @@ const TaskGrid2 = styled.div`
 `;
 
 const TaskCard = styled.div`
+  height: auto; 
+  min-height: 20vh; 
   flex-grow: 1;
   border-radius: 10px;
   padding: 20px;
@@ -29,6 +31,8 @@ const GridCol = styled.div`
   text-align: center;
   display: flex;
   flex-direction: column;
+  flex-grow: 1; 
+  justify-content: flex-start; 
 `;
 const GridBotton = styled.button`
   background: linear-gradient(to bottom, #393e46, #222831);
@@ -51,6 +55,8 @@ const Content = styled.div`
   border-radius: 10px;
   padding: 20px;
   margin: 20px 0;
+  height: auto; 
+  min-height: 20vh; 
 `;
 
 function Home() {
@@ -61,12 +67,12 @@ function Home() {
         <TaskCard
           style={{ background: "linear-gradient(to bottom, #32e0c4, #393e46)" }}
         >
-          <h3>Statistics</h3>
+          <h3 style={{color: "#222831"}}>Statistics</h3>
         </TaskCard>
         <TaskCard
           style={{ background: "linear-gradient(to bottom, #b3b3b3, #393e46)" }}
         >
-          <h3>Progress Tracker</h3>
+          <h3 style={{color: "#222831"}}>Progress Tracker</h3>
         </TaskCard>
       </TaskGrid1>
 
@@ -75,7 +81,7 @@ function Home() {
           <h3>In Progress</h3>
           <GridCol>
             <GridBotton>+</GridBotton>
-            <Content>hhh</Content>
+            <Content></Content>
           </GridCol>
         </TaskCard>
 
@@ -83,7 +89,7 @@ function Home() {
           <h3>Completed</h3>
           <GridCol>
             <GridBotton>+</GridBotton>
-            <Content style={{ background: "linear-gradient(to bottom, #32e0c4, #393e46)" }}>hhh</Content>
+            <Content style={{ background: "linear-gradient(to bottom, #32e0c4, #393e46)" }}></Content>
           </GridCol>
         </TaskCard>
 
