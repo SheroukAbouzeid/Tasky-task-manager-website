@@ -264,9 +264,7 @@ const Register = () => {
             <Inputs>
               <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange}/>
             </Inputs>
-            <Message>
-          {submissionMessage && <p>{submissionMessage}</p>}  
-          </Message>
+          {submissionMessage && <Message><p>{submissionMessage}</p></Message>}  
           </RegisterFormInputs>
           <RegisterFormButton>
             <button type="submit">Register</button>
