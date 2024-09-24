@@ -84,9 +84,8 @@ const LogInFormTitle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  position:fixed;
+  
   top:15vh;
-
   h1 {
     font-size: 28px;
     color: #32e0c4;
@@ -243,10 +242,10 @@ const LogIn = () => {
       </SideBanner>
 
       <LogInForm>
-      <LogInFormTitle>
+        <LogInFormContainer onSubmit={handleSubmit}>
+          <LogInFormTitle>
             <h1>Welcome Back!</h1>
           </LogInFormTitle>
-        <LogInFormContainer onSubmit={handleSubmit}>
           <LogFormInputs>
             <Inputs>
               <input
