@@ -31,7 +31,7 @@ const DashboardWrapper = styled.div`
 const HomeHeader = styled.h1`
   font-size: 3em;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 `;
 const Word = styled.span`
   color: ${(props) => props.color || "white"}; /* Default color is white */
