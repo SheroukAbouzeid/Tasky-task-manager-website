@@ -31,7 +31,7 @@ const SideBannerLogo = styled.div`
   align-items: center;
 
   img {
-    width: 180px;
+    width: 300px;
     height: auto;
   }
 `;
@@ -43,7 +43,7 @@ const SideBannerMockup = styled.div`
   align-items: center;
 
   img {
-    width: 350px;
+    width: 500px;
     height: auto;
   }
 `;
@@ -73,7 +73,7 @@ const LogInForm = styled.div`
 const LogInFormContainer = styled.form`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 40vh;
   width: 100%;
   max-width: 500px;
   padding: 0 20px;
@@ -84,13 +84,25 @@ const LogInFormTitle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  position:fixed;
+  top:15vh;
 
   h1 {
     font-size: 28px;
     color: #32e0c4;
   }
 `;
+const Message = styled.div`
+  flex: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
+  p {
+    font-size: 15px;
+    color: #ff0000;
+  }
+`;
 const LogFormInputs = styled.div`
   flex: 2;
   display: flex;
@@ -219,10 +231,10 @@ const LogIn = () => {
       <SideBanner>
         <SideContainer>
           <SideBannerLogo>
-            <img src="..\assets\LOGO.png" alt="Tasky Logo" />
+            <img src="..\assets\Logo_cropped.png" alt="Tasky Logo" />
           </SideBannerLogo>
           <SideBannerMockup>
-            <img src="..\assets\Desktop.png" alt="Desktop" />
+            <img src="..\assets\Desktop_cropped.png" alt="Desktop" />
           </SideBannerMockup>
           <SideBannerText>
             <p>Your go-to Task manager!</p>
@@ -231,10 +243,10 @@ const LogIn = () => {
       </SideBanner>
 
       <LogInForm>
-        <LogInFormContainer onSubmit={handleSubmit}>
-          <LogInFormTitle>
+      <LogInFormTitle>
             <h1>Welcome Back!</h1>
           </LogInFormTitle>
+        <LogInFormContainer onSubmit={handleSubmit}>
           <LogFormInputs>
             <Inputs>
               <input
@@ -255,7 +267,7 @@ const LogIn = () => {
               />
             </Inputs>
           </LogFormInputs>
-          {submissionMessage && <p>{submissionMessage}</p>}
+          {submissionMessage &&<Message> <p>{submissionMessage}</p></Message>}
 
           <LogInFormButton>
             <button type="submit">Log In</button>
