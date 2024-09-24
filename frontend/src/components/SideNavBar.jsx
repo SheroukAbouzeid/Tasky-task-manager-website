@@ -5,7 +5,7 @@ const StyledSidebar = styled.div`
   text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   font-size: 20px;
   color: #b3b3b3;
 `;
@@ -66,10 +66,14 @@ function SideNavBar() {
 
   return (
     <StyledSidebar>
-      <img src="../assets/LOGO.png" alt="Logo" width="100%" />
+      <img
+        src="../assets/LOGO_cropped.png"
+        alt="Logo"
+        style={{ width: "80%", marginLeft: "10%" }}
+      />
       <List
         style={{
-          borderBottom: "thin solid #222831",
+          borderBottom: "thin solid #393e46",
           borderTop: "thin solid #222831",
         }}
       >
@@ -85,10 +89,7 @@ function SideNavBar() {
       <List style={{ borderBottom: "thin solid #393e46" }}>
         <ListItem>
           <StyledImage src="../assets/Tasks.png" alt="Tasks" />
-          Tasks{" "}
-          <ToggleButton onClick={handleListToggle}>
-            {open ? "∧" : "∨"}
-          </ToggleButton>
+          Tasks <ToggleButton onClick={handleListToggle}>≡</ToggleButton>
         </ListItem>
         {open && (
           <List style={{ borderLeft: "thin solid #32e0c4", marginLeft: "20%" }}>
