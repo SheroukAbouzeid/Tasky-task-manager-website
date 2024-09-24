@@ -29,7 +29,7 @@ const SideBannerLogo = styled.div`
   align-items: center;
 
   img {
-    width: 180px;
+    width: 300px;
     height: auto;
   }
 `;
@@ -41,7 +41,7 @@ const SideBannerMockup = styled.div`
   align-items: center;
 
   img {
-    width: 350px;
+    width: 500px;
     height: auto;
   }
 `;
@@ -53,7 +53,7 @@ const SideBannerText = styled.div`
   align-items: center;
 
   p {
-    font-size: 22px;
+    font-size: 25px;
     text-align: center;
     max-width: 400px;
     color: #ffffff;
@@ -86,6 +86,18 @@ const RegisterFormTitle = styled.div`
   h1 {
     font-size: 28px;
     color: #32e0c4;
+  }
+`;
+
+const Message = styled.div`
+  flex: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    font-size: 15px;
+    color: #ff0000;
   }
 `;
 
@@ -220,10 +232,10 @@ const Register = () => {
       <SideBanner>
         <SideContainer>
           <SideBannerLogo>
-            <img src="..\assets\LOGO.png" alt="Tasky Logo" />
+            <img src="..\assets\Logo_cropped.png" alt="Tasky Logo" />
           </SideBannerLogo>
           <SideBannerMockup>
-            <img src="..\assets\Desktop.png" alt="Desktop" />
+            <img src="..\assets\Desktop_cropped.png" alt="Desktop" />
           </SideBannerMockup>
           <SideBannerText>
             <p>
@@ -252,6 +264,7 @@ const Register = () => {
             <Inputs>
               <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange}/>
             </Inputs>
+          {submissionMessage && <Message><p>{submissionMessage}</p></Message>}  
           </RegisterFormInputs>
           <RegisterFormButton>
             <button type="submit">Register</button>
@@ -261,7 +274,6 @@ const Register = () => {
               Already have an account? <span className="highlighted">Sign In</span>
             </p>
           </RegisterFormSignin>
-          {submissionMessage && <p>{submissionMessage}</p>}
         </RegisterFormContainer>
       </RegisterForm>
     </MainDiv>
