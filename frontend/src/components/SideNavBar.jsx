@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { Link } from 'react-router-dom';
 
 const StyledSidebar = styled.div`
   text-align: center;
@@ -112,7 +113,10 @@ function SideNavBar() {
             alt="logout"
             style={{ width: "10%" }}
           />
+          <Link to="/">
           Log out
+        </Link>
+          
         </ListItem>
       </List>
       <div>

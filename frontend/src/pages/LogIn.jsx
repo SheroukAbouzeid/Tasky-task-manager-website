@@ -1,6 +1,7 @@
 
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
 
 const MainDiv = styled.div`
   display: flex;
@@ -191,6 +192,7 @@ const LogIn = () => {
     password: "",
   });
   const [submissionMessage, setSubmissionMessage] = useState("");
+  const navigate = useNavigate(); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -214,6 +216,7 @@ const LogIn = () => {
         const result = await response.json();
         console.log(result); // You can handle the response data (like a token) here
         setSubmissionMessage("Login successful!");
+        navigate('/home');
       } else {
         const error = await response.json();
         console.log(error);

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
 
 const MainDiv = styled.div`
   display: flex;
@@ -192,6 +193,7 @@ const Register = () => {
     password: '',
   });
   const [submissionMessage, setSubmissionMessage] = useState('');
+  const navigate = useNavigate(); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -215,6 +217,7 @@ const Register = () => {
         const result = await response.json();
         console.log(result); // You can handle the response data here
         setSubmissionMessage("Registration successful!");
+        navigate('/login');
       } else {
         const error = await response.json();
         console.log(error);
