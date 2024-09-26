@@ -87,7 +87,7 @@ const NavBar = () => {
       <img src="../assets/LOGO_cropped.png" alt="Logo" />
       <Nav>
         <h2>Home</h2>
-        <h2>Product</h2>
+        <h2>About</h2>
         <h2>Contact</h2>
       </Nav>
       <ButtonContainer>
