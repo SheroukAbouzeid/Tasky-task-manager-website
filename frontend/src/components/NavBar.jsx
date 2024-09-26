@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const StyledNavbar = styled.div`
   display: flex;
@@ -86,13 +87,23 @@ const NavBar = () => {
     <StyledNavbar>
       <img src="../assets/LOGO_cropped.png" alt="Logo" />
       <Nav>
+      <Link to="/">
         <h2>Home</h2>
+        </Link>
+        <Link to="/about">
         <h2>About</h2>
+        </Link>
+        <Link to="/contact">
         <h2>Contact</h2>
+        </Link>
       </Nav>
       <ButtonContainer>
-        <LoginButton type="button">LOG IN</LoginButton>
-        <SignupButton type="button">SIGN UP</SignupButton>
+        <Link to="/login">
+          <LoginButton type="button">LOG IN</LoginButton>
+        </Link>
+        <Link to="/register">
+          <SignupButton type="button">SIGN UP</SignupButton>
+        </Link>
       </ButtonContainer>
     </StyledNavbar>
   );
