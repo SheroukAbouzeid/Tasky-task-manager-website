@@ -5,6 +5,8 @@ const StyledNavbar = styled.div`
   display: flex;
   align-items: center;       
   justify-content: space-between; 
+  border: 0.5px, solid;
+  border-color: #222222;
   background-color: #000000;
   padding: 15px 20px;       
   img {
