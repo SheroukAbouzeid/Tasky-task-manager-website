@@ -215,6 +215,12 @@ const LogIn = () => {
         console.log(result); // You can handle the response data (like a token) here
         setSubmissionMessage("Login successful!");
         navigate("/home");
+        console.log(result.userId);
+        localStorage.setItem('userId', result.userId);
+        localStorage.setItem('firstName', result.firstName);
+        localStorage.setItem('lastName', result.lastName);
+        localStorage.setItem('email', result.email);
+
       } else {
         const error = await response.json();
         console.log(error);

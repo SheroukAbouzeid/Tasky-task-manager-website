@@ -85,6 +85,10 @@ function SideNavBar() {
     setOpen((open) => !open);
   };
 
+  const email = localStorage.getItem('email');
+  const firstName = localStorage.getItem('firstName');
+  const lastName = localStorage.getItem('lastName');
+
   return (
     <StyledSidebar>
       <img
@@ -141,9 +145,9 @@ function SideNavBar() {
       <div>
         <User>
           <StyledImage src="../assets/User.png" alt="User" />
-          User Name
+          {firstName} {lastName}
         </User>
-        <p>user@gmail.com</p>
+        <p>{email}</p>
       </div>
     </StyledSidebar>
   );

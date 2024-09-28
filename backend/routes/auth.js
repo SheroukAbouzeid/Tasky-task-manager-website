@@ -4,7 +4,7 @@ import Users from "../schema/UserSchema.js";
 
 const router = Router();
 
-//tip from masry: everytime we change something in db we use try catch block
+//tip from masry: everytime we access something in db we use try catch block
 
 router.post("/register", async (req, res) => {
   try {
