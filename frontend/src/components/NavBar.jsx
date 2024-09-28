@@ -1,15 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 const StyledNavbar = styled.div`
   display: flex;
   align-items: center;       
   justify-content: space-between; 
-  border: 0.5px, solid;
+  border: 0.5px solid;
   border-color: #222222;
   background-color: #000000;
   padding: 15px 20px;       
+  
   img {
     width: 16%; 
     height: auto; 
@@ -37,6 +38,10 @@ const Nav = styled.div`
       cursor: pointer;
     }
   }
+`;
+
+const StyledLink = styled(RouterLink)`
+  text-decoration: none;    
 `;
 
 const ButtonContainer = styled.div`
@@ -87,26 +92,26 @@ const NavBar = () => {
     <StyledNavbar>
       <img src="../assets/LOGO_cropped.png" alt="Logo" />
       <Nav>
-      <Link to="/">
-        <h2>Home</h2>
-        </Link>
-        <Link to="/about">
-        <h2>About</h2>
-        </Link>
-        <Link to="/contact">
-        <h2>Contact</h2>
-        </Link>
+        <StyledLink to="/">
+          <h2>Home</h2>
+        </StyledLink>
+        <StyledLink to="/about">
+          <h2>About</h2>
+        </StyledLink>
+        <StyledLink to="/contact">
+          <h2>Contact</h2>
+        </StyledLink>
       </Nav>
       <ButtonContainer>
-        <Link to="/login">
+        <StyledLink to="/login">
           <LoginButton type="button">LOG IN</LoginButton>
-        </Link>
-        <Link to="/register">
+        </StyledLink>
+        <StyledLink to="/register">
           <SignupButton type="button">SIGN UP</SignupButton>
-        </Link>
+        </StyledLink>
       </ButtonContainer>
     </StyledNavbar>
   );
-}
+};
 
 export default NavBar;

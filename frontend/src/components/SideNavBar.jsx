@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom'; // Corrected import
 
 const StyledSidebar = styled.div`
   text-align: center;
@@ -10,21 +10,25 @@ const StyledSidebar = styled.div`
   font-size: 20px;
   color: #b3b3b3;
 `;
+
 const ToggleButton = styled.button`
-background: transparent;
+  background: transparent;
   border: none;
   color: #b3b3b3;
-  font-size: 20px;
-  font-whight: bold;
+  font-size: 36px;
+  font-weight: bold;
   cursor: pointer;
   margin-left: 10px;
+  
   &:hover {
-    color: #32e0c4; 
-
+    color: #32e0c4;
+  }
 `;
+
 const List = styled.ul`
   padding: 8%;
 `;
+
 const ListItem = styled.li`
   list-style-type: none;
   margin-bottom: 15px;
@@ -32,8 +36,10 @@ const ListItem = styled.li`
   align-items: center;
   justify-content: center;
   transition: color 0.3s;
-   &:hover {
-    color: #fff; 
+  
+  &:hover {
+    color: #fff;
+  }
 `;
 
 const InnerListItem = styled.li`
@@ -46,21 +52,35 @@ const StyledImage = styled.img`
   margin-right: 10px;
   width: 20%;
 `;
+
 const ListSpan = styled.span`
   margin-right: 10px;
   width: 20%;
 `;
+
+// Styled Link from react-router-dom
+const StyledLink = styled(RouterLink)`
+  text-decoration: none;
+  color: inherit; 
+  &:hover {
+    color: #32e0c4; 
+  }
+`;
+
 const User = styled.h3`
-display: flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   transition: color 0.3s;
-   &:hover {
-    color: #32e0c4; 
+  
+  &:hover {
+    color: #32e0c4;
+  }
 `;
 
 function SideNavBar() {
   const [open, setOpen] = useState(false);
+
   const handleListToggle = () => {
     setOpen((open) => !open);
   };
@@ -113,10 +133,9 @@ function SideNavBar() {
             alt="logout"
             style={{ width: "10%" }}
           />
-          <Link to="/">
-          Log out
-        </Link>
-          
+          <StyledLink to="/">
+            Log out
+          </StyledLink>
         </ListItem>
       </List>
       <div>
