@@ -1,5 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
+import { Link as RouterLink } from "react-router-dom";
 
 const MainDiv = styled.div`
   display: flex;
@@ -17,7 +18,6 @@ const Mockup = styled.div`
   padding-left: 10%;
 
   img {
-    
     width: 110%;
     height: auto;
   }
@@ -30,28 +30,28 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   padding-right: 10%;
-  
-  h2{
+
+  h2 {
     color: #ffffff;
     font-size: 50px;
     text-align: center;
   }
-  span{
-    color: #32E0C4;
+  span {
+    color: #32e0c4;
   }
 `;
 
 const GetstartedButton = styled.button`
   background: #000000;
-  color: #32E0C4;
+  color: #32e0c4;
   padding: 10px 30px;
   margin: 20px;
   font-size: 18px;
-  font-weight: bold; 
+  font-weight: bold;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-left: 20px;       
+  margin-left: 20px;
   transition: background 0.3s;
 
   &:hover {
@@ -62,19 +62,29 @@ const GetstartedButton = styled.button`
   }
 `;
 
+const StyledLink = styled(RouterLink)`
+  text-decoration: none;
+`;
+
 const HomePage = () => {
   return (
     <MainDiv>
-        <Mockup>
-            <img src="..\assets\screens_cropped.png" alt="Desktop" />
-        </Mockup>
-        <Container>
-            <h2>Get Your <br/>Tasks Done <br/>Efficiently<br/> with <span>Tasky</span> </h2>
-            <GetstartedButton type="button">Get Started</GetstartedButton>
-        </Container>
-        
+      <Mockup>
+        <img src="..\assets\screens_cropped.png" alt="Desktop" />
+      </Mockup>
+      <Container>
+        <h2>
+          Get Your <br />
+          Tasks Done <br />
+          Efficiently
+          <br /> with <span>Tasky</span>
+        </h2>
+        <StyledLink to="/register">
+          <GetstartedButton type="button">Get Started</GetstartedButton>
+        </StyledLink>
+      </Container>
     </MainDiv>
   );
-}
+};
 
 export default HomePage;
