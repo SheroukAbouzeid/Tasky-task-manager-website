@@ -1,7 +1,6 @@
-
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const MainDiv = styled.div`
   display: flex;
@@ -85,8 +84,8 @@ const LogInFormTitle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  
-  top:15vh;
+
+  top: 15vh;
   h1 {
     font-size: 28px;
     color: #32e0c4;
@@ -122,19 +121,19 @@ const Inputs = styled.div`
     flex: 1;
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #ffffff; 
+    border: 1px solid #ffffff;
     border-radius: 5px;
-    background-color: transparent; 
+    background-color: transparent;
     color: #ffffff; /* White text color */
-    transition: border-color 0.3s, color 0.3s; 
+    transition: border-color 0.3s, color 0.3s;
 
     &:hover {
       border-color: #32e0c4;
     }
 
     &:focus {
-      border-color: #32e0c4; 
-      outline: none; 
+      border-color: #32e0c4;
+      outline: none;
     }
   }
 `;
@@ -174,25 +173,24 @@ const LogInFormSignup = styled.div`
     color: #ffffff;
 
     .highlighted {
-      color: #32e0c4; 
+      color: #32e0c4;
       cursor: pointer;
-      transition: color 0.3s; 
+      transition: color 0.3s;
 
       &:hover {
-        color: #ffffff; 
+        color: #ffffff;
       }
     }
   }
 `;
 
-  
 const LogIn = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const [submissionMessage, setSubmissionMessage] = useState("");
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -216,7 +214,7 @@ const LogIn = () => {
         const result = await response.json();
         console.log(result); // You can handle the response data (like a token) here
         setSubmissionMessage("Login successful!");
-        navigate('/home');
+        navigate("/home");
       } else {
         const error = await response.json();
         console.log(error);
@@ -269,7 +267,12 @@ const LogIn = () => {
               />
             </Inputs>
           </LogFormInputs>
-          {submissionMessage &&<Message> <p>{submissionMessage}</p></Message>}
+          {submissionMessage && (
+            <Message>
+              {" "}
+              <p>{submissionMessage}</p>
+            </Message>
+          )}
 
           <LogInFormButton>
             <button type="submit">Log In</button>
@@ -277,7 +280,7 @@ const LogIn = () => {
           <LogInFormSignup>
             <p>
               Don't have an account?{" "}
-              <span className="highlighted">Sign Up</span>
+              <a href="./Register" className="highlighted">Sign Up</a>
             </p>
           </LogInFormSignup>
         </LogInFormContainer>
