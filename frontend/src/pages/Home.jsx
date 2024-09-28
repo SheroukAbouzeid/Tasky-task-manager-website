@@ -5,8 +5,7 @@ import Dashboard from "./Dashboard";
 
 const MainDiv = styled.div`
   display: flex;
-  flex-wrap: no-wrap
-  height: 100vh;
+  
 `;
 
 const SideBarWrapper = styled.div`
