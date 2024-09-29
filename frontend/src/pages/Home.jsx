@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import SideNavBar from "../components/SideNavBar";
 import Dashboard from "./Dashboard";
+import { useNavigate } from "react-router-dom"; 
 
 const MainDiv = styled.div`
   display: flex;
-  
 `;
 
 const SideBarWrapper = styled.div`
@@ -15,7 +15,7 @@ const SideBarWrapper = styled.div`
   background: linear-gradient(to bottom, #393e46, #000);
   border-right: thin solid transparent;
   border-image: linear-gradient(to bottom, #b3b3b3, #393e46);
-  border-image-slice: 1; 
+  border-image-slice: 1;
 `;
 
 const DashboardWrapper = styled.div`
@@ -32,6 +32,7 @@ const HomeHeader = styled.h1`
   font-weight: bold;
   margin-bottom: 30px;
 `;
+
 const Word = styled.span`
   color: ${(props) => props.color || "white"}; /* Default color is white */
 `;
@@ -55,6 +56,16 @@ const TaskCard = styled.div`
 `;
 
 const Home = () => {
+  const navigate = useNavigate(); 
+
+  useEffect(() => {
+    const email = localStorage.getItem("email");
+    // If the user is not logged in, redirect to the login page
+    if (!email) {
+      navigate("/login", { replace: true });
+    }
+  }, [navigate]);
+
   return (
     <MainDiv>
       {/* Sidebar Section */}

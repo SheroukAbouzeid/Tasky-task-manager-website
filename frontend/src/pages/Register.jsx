@@ -274,7 +274,7 @@ const Register = () => {
           </RegisterFormButton>
           <RegisterFormSignin>
             <p>
-              Already have an account? <span className="highlighted">Sign In</span>
+              Already have an account? <a href="./LogIn" className="highlighted">Sign In</a>
             </p>
           </RegisterFormSignin>
         </RegisterFormContainer>

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link as RouterLink } from 'react-router-dom'; // Corrected import
-
+import { replace, Link as RouterLink, useNavigate } from "react-router-dom";
 const StyledSidebar = styled.div`
   text-align: center;
   display: flex;
@@ -19,7 +18,7 @@ const ToggleButton = styled.button`
   font-weight: bold;
   cursor: pointer;
   margin-left: 10px;
-  
+
   &:hover {
     color: #32e0c4;
   }
@@ -36,7 +35,7 @@ const ListItem = styled.li`
   align-items: center;
   justify-content: center;
   transition: color 0.3s;
-  
+
   &:hover {
     color: #fff;
   }
@@ -61,9 +60,9 @@ const ListSpan = styled.span`
 // Styled Link from react-router-dom
 const StyledLink = styled(RouterLink)`
   text-decoration: none;
-  color: inherit; 
+  color: inherit;
   &:hover {
-    color: #32e0c4; 
+    color: #32e0c4;
   }
 `;
 
@@ -72,7 +71,7 @@ const User = styled.h3`
   align-items: center;
   justify-content: center;
   transition: color 0.3s;
-  
+
   &:hover {
     color: #32e0c4;
   }
@@ -85,9 +84,15 @@ function SideNavBar() {
     setOpen((open) => !open);
   };
 
-  const email = localStorage.getItem('email');
-  const firstName = localStorage.getItem('firstName');
-  const lastName = localStorage.getItem('lastName');
+  const handleLogOut = () => {
+    localStorage.removeItem("email");
+    localStorage.removeItem("firstName");
+    localStorage.removeItem("lastName");
+    navigat("/", { replace: true });
+  };
+  const email = localStorage.getItem("email");
+  const firstName = localStorage.getItem("firstName");
+  const lastName = localStorage.getItem("lastName");
 
   return (
     <StyledSidebar>
@@ -137,7 +142,7 @@ function SideNavBar() {
             alt="logout"
             style={{ width: "10%" }}
           />
-          <StyledLink to="/">
+          <StyledLink to="/" onClickCapture={handleLogOut}>
             Log out
           </StyledLink>
         </ListItem>
