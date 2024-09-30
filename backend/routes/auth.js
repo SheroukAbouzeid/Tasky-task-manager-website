@@ -1,6 +1,7 @@
 import { Router } from "express";
 import bcrypt from "bcryptjs";
 import Users from "../schema/UserSchema.js";
+import Tasks from "../schema/TaskSchema.js";
 
 const router = Router();
 
@@ -80,6 +81,29 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+// Add Task Route
+router.post('/home', async (req, res) => {
+  try {
+    const { title, description, dueDate, priority, tag, status, userID } = req.body;
+    const newTask = new Tasks({
+      title,
+      description,
+      dueDate,
+      priority,
+      tag,
+      status,
+      userID
+    });
+
+    const savedTask = await newTask.save(); 
+    res.status(201).json(savedTask); 
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: "Server error" });
+  }
+});
+
 
 
 export default router;
