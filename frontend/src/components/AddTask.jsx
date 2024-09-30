@@ -7,7 +7,7 @@ const ModalBackground = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.8); 
+  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,14 +81,14 @@ const Label = styled.label`
 `;
 
 const AddTask = ({ showModal, handleClose, handleSave }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [dueDate, setDueDate] = useState('');
-  const [priority, setPriority] = useState('mid');
-  const [tag, setTag] = useState('work');
-  const [status, setStatus] = useState('inprogress');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [priority, setPriority] = useState("mid");
+  const [tag, setTag] = useState("work");
+  const [status, setStatus] = useState("inprogress");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newTask = {
@@ -101,8 +101,27 @@ const AddTask = ({ showModal, handleClose, handleSave }) => {
       userID: "someUserID", // Replace this with actual user ID
     };
 
-    handleSave(newTask);
-    handleClose();
+    try {
+      const response = await fetch("http://localhost:8000/api/tasks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTask),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      console.log("Task added:", data);
+
+      handleSave(newTask);
+      handleClose();
+    } catch (error) {
+      console.error("Error adding task:", error);
+    }
   };
 
   return (
@@ -137,7 +156,6 @@ const AddTask = ({ showModal, handleClose, handleSave }) => {
               <Label>Due Date</Label>
               <Input
                 type="date"
-                
                 value={dueDate}
                 onChange={(e) => setDueDate(e.target.value)}
                 required
