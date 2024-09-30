@@ -69,9 +69,9 @@ const Task = ({ tasks }) => {
     <div>
       {tasks.length > 0 ? (
         tasks.map((task, index) => (
-          <p key={index} style={{ color: "#222831" }}>
-            {task}
-          </p>
+          <div key={index} style={{ color: "#222831", marginBottom: '10px' }}>
+            <p>{task.title}</p>
+          </div>
         ))
       ) : (
         <p style={{ color: "#222831" }}>No tasks in progress</p>
@@ -79,6 +79,7 @@ const Task = ({ tasks }) => {
     </div>
   );
 };
+
 
 function Dashboard() {
   const [showModal, setShowModal] = useState(false);
