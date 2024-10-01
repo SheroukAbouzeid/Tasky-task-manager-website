@@ -2,6 +2,7 @@ import express from 'express';
 import router from './routes/auth.js';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import { swaggerDocs, swaggerUi } from "./swaggerConfig.js"; 
 
 const app = express();
 const PORT = 8000;
@@ -25,6 +26,8 @@ db.once('open', () => {
     console.log('Connected to DB!')
 })
 
+// Swagger setup
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 
 
