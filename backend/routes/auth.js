@@ -83,7 +83,7 @@ router.post("/login", async (req, res) => {
 });
 
 // Add Task Route
-router.post('/home', async (req, res) => {
+router.post('/task', async (req, res) => {
   try {
     const { title, description, dueDate, priority, tag, status, userID } = req.body;
     const newTask = new Tasks({
@@ -101,6 +101,16 @@ router.post('/home', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: "Server error" });
+  }
+});
+
+router.get('/task', async (req, res) => {
+  try {
+    const tasks = await Tasks.find();
+    res.status(200).json(tasks);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 

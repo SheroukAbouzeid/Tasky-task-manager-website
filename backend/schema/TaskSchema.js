@@ -9,7 +9,7 @@ const TaskSchema = new mongoose.Schema({
     type: String,
   },
   dueDate: {
-    type: Date,
+    type: String,
   },
   priority: {
     type: String,
@@ -28,7 +28,6 @@ const TaskSchema = new mongoose.Schema({
   },
   userID: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
     required: true,
   },
 });

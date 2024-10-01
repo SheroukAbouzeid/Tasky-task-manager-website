@@ -98,11 +98,11 @@ const AddTask = ({ showModal, handleClose, handleSave }) => {
       priority,
       tag,
       status,
-      userID: "someUserID", // Replace this with actual user ID
+      userID: localStorage.getItem("userId"), // Replace this with actual user ID
     };
 
     try {
-      const response = await fetch("http://localhost:8000/api/tasks", {
+      const response = await fetch("http://localhost:8000/task", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
