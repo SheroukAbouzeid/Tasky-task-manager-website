@@ -27,9 +27,9 @@ const TaskSchema = new mongoose.Schema({
     required: true,
   },
   userID: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: true,
   },
 });
 
-export default mongoose.model("Task", TaskSchema);
+export default mongoose.model("Task", TaskSchema,'Tasks');
