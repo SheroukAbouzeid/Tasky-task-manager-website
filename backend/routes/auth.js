@@ -115,8 +115,22 @@ router.get('/task', async (req, res) => {
 });
 
 
+router.get('/tasks/completed/:userId', async (req, res) => {
+  try {
+    // Access the userId from req.params
+    const { userId } = req.params;
+    const completedTasks = await Tasks.find({ status: 'completed', userId });
+    res.status(200).json(completedTasks);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 
 export default router;
+
+
 
 
 
