@@ -2,7 +2,7 @@
 
 /**
  * @swagger
- * /register:
+ * /api/register:
  *   post:
  *     summary: Register a new user
  *     tags: [User]
@@ -23,7 +23,7 @@
 
 /**
  * @swagger
- * /login:
+ * /api/login:
  *   post:
  *     summary: Login a user
  *     tags: [User]

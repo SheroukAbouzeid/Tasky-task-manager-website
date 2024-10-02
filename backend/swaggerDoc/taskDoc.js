@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /task:
+ * /api/task:
  *   post:
  *     summary: Create a new task
  *     tags: [Task]
@@ -25,7 +25,7 @@
 
 /**
  * @swagger
- * /tasks/{userId}:
+ * /api/tasks/{userId}:
  *   get:
  *     summary: Get all tasks for a specific user
  *     tags: [Task]
@@ -53,7 +53,7 @@
 
 /**
  * @swagger
- * /tasks/completed:
+ * /api/tasks/completed:
  *   get:
  *     summary: Get completed tasks for a user
  *     tags: [Task]
@@ -81,7 +81,7 @@
 
 /**
  * @swagger
- * /task/{taskId}:
+ * /api/task/{taskId}:
  *   delete:
  *     summary: Delete a task by ID
  *     tags: [Task]
