@@ -1,5 +1,5 @@
 import express from 'express';
-import router from './routes/auth.js';
+import router from './routes/routes.js';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import { swaggerDocs, swaggerUi } from "./swaggerConfig.js"; 

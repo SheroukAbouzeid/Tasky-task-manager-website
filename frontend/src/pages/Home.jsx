@@ -57,6 +57,7 @@ const TaskCard = styled.div`
 
 const Home = () => {
   const navigate = useNavigate(); 
+  const firstName = localStorage.getItem("firstName");
 
   useEffect(() => {
     const email = localStorage.getItem("email");
@@ -77,7 +78,7 @@ const Home = () => {
       <DashboardWrapper>
         <HomeHeader>
           Hello
-          <Word color="#b3b3b3"> User, </Word>
+          <Word color="#b3b3b3"> {firstName}, </Word>
           Let’s Get Tasks
           <Word color="#32e0c4"> DONE!</Word>
         </HomeHeader>
