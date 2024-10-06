@@ -64,22 +64,25 @@ const Content = styled.div`
   min-height: 20vh;
 `;
 
-const Task = ({ tasks }) => {
+const Task = ({ tasks, status }) => {
   return (
     <div>
-      {tasks.length > 0 ? (
-        tasks.map((task, index) => (
-          <div key={index} style={{ color: "#222831", marginBottom: '10px' }}>
-            <p>{task.title}</p>
-          </div>
-        ))
+      {tasks.filter((task) => task.status === status).length > 0 ? (
+        tasks
+          .filter((task) => task.status === status)
+          .map((task, index) => (
+            <div key={index} style={{ color: "#222831", marginBottom: "10px" }}>
+              <p>{task.title}</p>
+            </div>
+          ))
       ) : (
-        <p style={{ color: "#222831" }}>No tasks in progress</p>
+        <p style={{ color: "#222831" }}>
+          No tasks {status === "inprogress" ? "in progress" : "completed"}
+        </p>
       )}
     </div>
   );
 };
-
 
 function Dashboard() {
   const [showModal, setShowModal] = useState(false);
@@ -123,7 +126,7 @@ function Dashboard() {
           <GridCol>
             <GridButton onClick={handleAddTaskClick}>+</GridButton>
             <Content>
-              <Task tasks={tasks} />
+              <Task tasks={tasks} status="inprogress" />
             </Content>
           </GridCol>
         </TaskCard>
@@ -131,12 +134,13 @@ function Dashboard() {
         <TaskCard>
           <h3>Completed</h3>
           <GridCol>
-            <GridButton>+</GridButton>
             <Content
               style={{
                 background: "linear-gradient(to bottom, #32e0c4, #393e46)",
               }}
-            ></Content>
+            >
+              <Task tasks={tasks} status="completed" />
+            </Content>
           </GridCol>
         </TaskCard>
 
