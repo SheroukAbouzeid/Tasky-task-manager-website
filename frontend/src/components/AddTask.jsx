@@ -86,7 +86,9 @@ const AddTask = ({ showModal, handleClose, handleSave }) => {
   const [dueDate, setDueDate] = useState("");
   const [priority, setPriority] = useState("mid");
   const [tag, setTag] = useState("work");
-  const [status, setStatus] = useState("inprogress");
+  const status = "inprogress";
+
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -98,11 +100,11 @@ const AddTask = ({ showModal, handleClose, handleSave }) => {
       priority,
       tag,
       status,
-      userID: localStorage.getItem("userId"), // Replace this with actual user ID
+      userID: localStorage.getItem("userId"),
     };
 
     try {
-      const response = await fetch("http://localhost:8000/task", {
+      const response = await fetch("http://localhost:8000/api/task", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -111,7 +113,7 @@ const AddTask = ({ showModal, handleClose, handleSave }) => {
       });
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error("Failed to add task.");
       }
 
       const data = await response.json();
@@ -119,8 +121,15 @@ const AddTask = ({ showModal, handleClose, handleSave }) => {
 
       handleSave(newTask);
       handleClose();
+      setTitle("");
+      setDescription("");
+      setDueDate("");
+      setPriority("mid");
+      setTag("work");
+      setErrorMessage(""); // Clear error message
     } catch (error) {
       console.error("Error adding task:", error);
+      setErrorMessage("Failed to add task. Please try again.");
     }
   };
 
@@ -190,18 +199,8 @@ const AddTask = ({ showModal, handleClose, handleSave }) => {
                 <option value="health">Health</option>
               </Select>
             </FormGroup>
-
-            <FormGroup>
-              <Label>Status</Label>
-              <Select
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-                required
-              >
-                <option value="inprogress">In Progress</option>
-                <option value="completed">Completed</option>
-              </Select>
-            </FormGroup>
+            
+            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 
             <AddTaskButton type="submit">Save Task</AddTaskButton>
           </form>
