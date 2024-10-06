@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { replace, Link as RouterLink, useNavigate } from "react-router-dom";
 import InProgress from "./InProgress";
@@ -83,12 +83,27 @@ const User = styled.h3`
   }
 `;
 
-
 function SideNavBar() {
   const [open, setOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [tasks, setTasks] = useState([]);
+  // const fetchTasks = async () => {
+  //   try {
+  //     const userId = localStorage.getItem("userID");
+  //     const response = await fetch(`/api/tasks/:userId`);
 
+  //     if (!response.ok) {
+  //       const errorText = await response.text();
+  //       console.error("Error fetching tasks:", errorText);
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
+
+  //     const data = await response.json();
+  //     setTasks(data);
+  //   } catch (error) {
+  //     console.error("Fetch tasks error:", error);
+  //   }
+  // };
   const handleShowModal = () => {
     setShowModal(!showModal);
   };
@@ -171,7 +186,7 @@ function SideNavBar() {
       </div>
 
       <InProgress
-        showModal={showModal} 
+        showModal={showModal}
         handleClose={handleShowModal}
         tasks={tasks}
       />

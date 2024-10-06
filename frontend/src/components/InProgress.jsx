@@ -48,11 +48,16 @@ const InProgress = ({ showModal, handleClose, tasks }) => {
       <ModalBackground>
         <ModalContent>
           <CloseButton onClick={handleClose}>Close</CloseButton> 
-          <h3>In Progress Tasks</h3>
           {inProgressTasks.length > 0 ? (
             <ul>
               {inProgressTasks.map((task, index) => (
-                <li key={index}>{task.title}</li>
+                <li key={index}>
+                  <h4>{task.title}</h4>
+                  <p>{task.description}</p>
+                  <p>Due Date: {task.dueDate}</p>
+                  <p>Priority: {task.priority}</p>
+                  <p>Tag: {task.tag}</p>
+                </li>
               ))}
             </ul>
           ) : (
