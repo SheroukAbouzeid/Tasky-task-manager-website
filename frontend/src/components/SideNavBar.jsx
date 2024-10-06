@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { replace, Link as RouterLink, useNavigate } from "react-router-dom";
+import InProgress from "./InProgress";
+
 const StyledSidebar = styled.div`
   text-align: center;
   display: flex;
@@ -45,6 +47,10 @@ const InnerListItem = styled.li`
   list-style-type: none;
   margin-bottom: 15px;
   display: flex;
+  cursor: pointer;
+  &:hover {
+    color: #32e0c4;
+  }
 `;
 
 const StyledImage = styled.img`
@@ -77,19 +83,28 @@ const User = styled.h3`
   }
 `;
 
+
 function SideNavBar() {
   const [open, setOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [tasks, setTasks] = useState([]);
+
+  const handleShowModal = () => {
+    setShowModal(!showModal);
+  };
 
   const handleListToggle = () => {
     setOpen((open) => !open);
   };
 
+  const navigate = useNavigate();
   const handleLogOut = () => {
     localStorage.removeItem("email");
     localStorage.removeItem("firstName");
     localStorage.removeItem("lastName");
-    navigat("/", { replace: true });
+    navigate("/", { replace: true });
   };
+
   const email = localStorage.getItem("email");
   const firstName = localStorage.getItem("firstName");
   const lastName = localStorage.getItem("lastName");
@@ -123,7 +138,7 @@ function SideNavBar() {
         </ListItem>
         {open && (
           <List style={{ borderLeft: "thin solid #32e0c4", marginLeft: "20%" }}>
-            <InnerListItem>
+            <InnerListItem onClick={handleShowModal}>
               <ListSpan style={{ color: "#b3b3b3" }}>⦿ </ListSpan> In Progress
             </InnerListItem>
             <InnerListItem>
@@ -154,6 +169,12 @@ function SideNavBar() {
         </User>
         <p>{email}</p>
       </div>
+
+      <InProgress
+        showModal={showModal} 
+        handleClose={handleShowModal}
+        tasks={tasks}
+      />
     </StyledSidebar>
   );
 }
