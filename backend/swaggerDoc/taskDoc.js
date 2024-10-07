@@ -73,7 +73,7 @@
  * @swagger
  * /api/tasks/{userId}:
  *   get:
- *     summary: Get all tasks for a specific user
+ *     summary: Get tasks for a specific user
  *     tags: [Task]
  *     parameters:
  *       - in: path
@@ -82,6 +82,13 @@
  *           type: string
  *         required: true
  *         description: The ID of the user whose tasks you want to retrieve
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 0
+ *         required: false
+ *         description: The maximum number of tasks to return. Defaults to 0, which means no limit.
  *     responses:
  *       200:
  *         description: Returns a list of tasks for the user

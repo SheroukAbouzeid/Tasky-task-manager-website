@@ -40,10 +40,11 @@ export const addTask = async (req, res) => {
 
 export const getUserTasks = async (req, res) => {
   const { userId } = req.params; // Assuming userId is passed as a route parameter
+  const limit = parseInt(req.query.limit, 10) || 0; // Limit from query, default to 0 (no limit)
 
   try {
-    // Find all tasks for the given userId
-    const tasks = await Tasks.find({ userID: userId });
+    // Find tasks for the given userId with the specified limit
+    const tasks = await Tasks.find({ userID: userId }).limit(limit);
 
     // Check if the user has any tasks
     if (!tasks || tasks.length === 0) {
@@ -56,6 +57,7 @@ export const getUserTasks = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
 
 //--------------------------------------------getCompletedTasks--------------------------------------------
 
