@@ -242,7 +242,7 @@ const AddTask = ({ showModal, handleClose, handleSave }) => {
             </FormGroup>
 
             <FormGroup>
-              <Label>Steps (optinal)</Label>
+              <Label>Steps (optional)</Label>
               {steps.map((step, index) => (
                 <StepInput key={index}>
                   <Input
