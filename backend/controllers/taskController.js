@@ -1,9 +1,19 @@
 import Tasks from "../schema/TaskSchema.js";
 
+
+//--------------------------------------------addTask--------------------------------------------
 export const addTask = async (req, res) => {
   try {
-    const { title, description, dueDate, priority, tag, status, userID } =
-      req.body;
+    const {
+      title,
+      description,
+      dueDate,
+      priority,
+      tag,
+      status,
+      userID,
+      steps,
+    } = req.body;
 
     const newTask = new Tasks({
       title,
@@ -13,7 +23,10 @@ export const addTask = async (req, res) => {
       tag,
       status,
       userID,
+      steps, // Including steps array
     });
+    if (!newTask) {
+      return res.status(400).json({ message: "Invalid task data" });}
 
     const savedTask = await newTask.save();
     res.status(201).json(savedTask);
@@ -22,6 +35,8 @@ export const addTask = async (req, res) => {
     res.status(400).json({ message: "Server error" });
   }
 };
+
+//--------------------------------------------getUserTasks--------------------------------------------
 
 export const getUserTasks = async (req, res) => {
   const { userId } = req.params; // Assuming userId is passed as a route parameter
@@ -41,6 +56,8 @@ export const getUserTasks = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+//--------------------------------------------getCompletedTasks--------------------------------------------
 
 
 export const getCompletedTasks = async (req, res) => {
@@ -63,6 +80,8 @@ export const getCompletedTasks = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+//--------------------------------------------deleteTask--------------------------------------------
 
 export const deleteTask = async (req, res) => {
   const { taskId } = req.params;

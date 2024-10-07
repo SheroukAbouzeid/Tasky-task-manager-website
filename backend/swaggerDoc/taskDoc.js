@@ -9,7 +9,53 @@
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Task'
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: The title of the task
+ *                 example: "Complete project report"
+ *               description:
+ *                 type: string
+ *                 description: Description of the task
+ *                 example: "Write and finalize the project report for the client"
+ *               dueDate:
+ *                 type: string
+ *                 description: Due date of the task
+ *                 example: "2024-10-20"
+ *               priority:
+ *                 type: string
+ *                 enum: ["high", "mid", "low"]
+ *                 description: Priority level of the task
+ *                 example: "high"
+ *               tag:
+ *                 type: string
+ *                 enum: ["work", "school", "home", "project", "health", "sports"]
+ *                 description: Tag for the task category
+ *                 example: "work"
+ *               status:
+ *                 type: string
+ *                 enum: ["inprogress", "completed"]
+ *                 description: Status of the task
+ *                 example: "inprogress"
+ *               userID:
+ *                 type: string
+ *                 description: ID of the user who owns the task
+ *                 example: "12345"
+ *               steps:
+ *                 type: array
+ *                 description: List of steps for the task
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     stepName:
+ *                       type: string
+ *                       description: Name of the step
+ *                       example: "Research"
+ *                     isComplete:
+ *                       type: boolean
+ *                       description: Completion status of the step
+ *                       example: false
  *     responses:
  *       201:
  *         description: Task created successfully

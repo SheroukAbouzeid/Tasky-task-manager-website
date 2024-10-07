@@ -30,6 +30,18 @@ const TaskSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  steps: [
+    {
+      stepName: {
+        type: String,
+        required: true,
+      },
+      isComplete: {
+        type: Boolean,
+        default: false,
+      },
+    },
+  ],
 });
 
-export default mongoose.model("Task", TaskSchema,'Tasks');
+export default mongoose.model("Task", TaskSchema, "Tasks");

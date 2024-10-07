@@ -18,11 +18,14 @@ const ModalContent = styled.div`
   padding: 40px;
   border-radius: 10px;
   width: 50%;
+  max-height: 80vh; /* Set a maximum height */
+  overflow-y: auto; /* Enable vertical scrolling if content overflows */
   color: white;
   display: flex;
   flex-direction: column;
   gap: 20px;
 `;
+
 
 const FormGroup = styled.div`
   display: flex;
@@ -80,6 +83,27 @@ const Label = styled.label`
   margin-bottom: 5px;
 `;
 
+const StepInput = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+`;
+
+const RemoveButton = styled.button`
+  background-color: #f05454;
+  color: white;
+  border: none;
+  padding: 6px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #393e46;
+  }
+`;
+
 const AddTask = ({ showModal, handleClose, handleSave }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -87,8 +111,23 @@ const AddTask = ({ showModal, handleClose, handleSave }) => {
   const [priority, setPriority] = useState("mid");
   const [tag, setTag] = useState("work");
   const status = "inprogress";
-
+  const [steps, setSteps] = useState([{ stepName: "", isComplete: false }]);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const handleStepChange = (index, field, value) => {
+    const newSteps = [...steps];
+    newSteps[index][field] = value;
+    setSteps(newSteps);
+  };
+
+  const handleAddStep = () => {
+    setSteps([...steps, { stepName: "", isComplete: false }]);
+  };
+
+  const handleRemoveStep = (index) => {
+    const newSteps = steps.filter((_, i) => i !== index);
+    setSteps(newSteps);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -101,6 +140,7 @@ const AddTask = ({ showModal, handleClose, handleSave }) => {
       tag,
       status,
       userID: localStorage.getItem("userId"),
+      steps,
     };
 
     try {
@@ -126,6 +166,7 @@ const AddTask = ({ showModal, handleClose, handleSave }) => {
       setDueDate("");
       setPriority("mid");
       setTag("work");
+      setSteps([{ stepName: "", isComplete: false }]); // Reset steps
       setErrorMessage(""); // Clear error message
     } catch (error) {
       console.error("Error adding task:", error);
@@ -199,7 +240,30 @@ const AddTask = ({ showModal, handleClose, handleSave }) => {
                 <option value="health">Health</option>
               </Select>
             </FormGroup>
-            
+
+            <FormGroup>
+              <Label>Steps (optinal)</Label>
+              {steps.map((step, index) => (
+                <StepInput key={index}>
+                  <Input
+                    type="text"
+                    placeholder="Step name..."
+                    value={step.stepName}
+                    onChange={(e) =>
+                      handleStepChange(index, "stepName", e.target.value)
+                    }
+                    required
+                  />
+                  <RemoveButton onClick={() => handleRemoveStep(index)}>
+                    Remove
+                  </RemoveButton>
+                </StepInput>
+              ))}
+              <AddTaskButton type="button" onClick={handleAddStep}>
+                Add Step
+              </AddTaskButton>
+            </FormGroup>
+
             {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 
             <AddTaskButton type="submit">Save Task</AddTaskButton>
