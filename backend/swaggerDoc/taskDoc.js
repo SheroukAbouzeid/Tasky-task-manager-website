@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /api/task:
+ * /api/addTask:
  *   post:
  *     summary: Create a new task
  *     tags: [Task]

@@ -15,7 +15,7 @@ router.post("/login", loginUser);
 //--------------------------------------------------------task routes--------------------------------------------------------//
 
 // Add Task Route
-router.post('/task', addTask);
+router.post('/addTask', addTask);
 
 // get tasks by userID (from route parameter)
 router.get('/tasks/:userId', getUserTasks);

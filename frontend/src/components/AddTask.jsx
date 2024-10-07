@@ -144,7 +144,7 @@ const AddTask = ({ showModal, handleClose, handleSave }) => {
     };
 
     try {
-      const response = await fetch("http://localhost:8000/api/task", {
+      const response = await fetch("http://localhost:8000/api/addTask", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
