@@ -64,12 +64,13 @@ export const getUserTasks = async (req, res) => {
 
 export const getCompletedTasks = async (req, res) => {
   const { userId } = req.query;
+  const limit = parseInt(req.query.limit, 10) || 0;
 
   try {
     const completedTasks = await Tasks.find({
       userID: userId,
       status: "completed",
-    });
+    }).limit(limit);
 
     if (completedTasks.length === 0) {
       return res

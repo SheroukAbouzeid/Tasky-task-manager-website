@@ -18,13 +18,13 @@ router.post("/login", loginUser);
 router.post('/addTask', addTask);
 
 // get tasks by userID (from route parameter)
-router.get('/tasks/:userId', getUserTasks);
+router.get('/getTasks/:userId', getUserTasks);
 
 // GET completed tasks by userID (from query parameter)
-router.get('/tasks/completed', getCompletedTasks);
+router.get('/getCompletedTasks/', getCompletedTasks);
 
 // delete task by taskID
-router.delete('/task/:taskId', deleteTask);
+router.delete('/deleteTask/:taskId', deleteTask);
 
 
 export default router;

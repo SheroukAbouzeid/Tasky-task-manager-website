@@ -71,7 +71,7 @@
 
 /**
  * @swagger
- * /api/tasks/{userId}:
+ * /api/getTasks/{userId}:
  *   get:
  *     summary: Get tasks for a specific user
  *     tags: [Task]
@@ -106,7 +106,7 @@
 
 /**
  * @swagger
- * /api/tasks/completed:
+ * /api/getCompletedTasks:
  *   get:
  *     summary: Get completed tasks for a user
  *     tags: [Task]
@@ -117,6 +117,13 @@
  *           type: string
  *         required: true
  *         description: The ID of the user to fetch completed tasks for
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 0
+ *         required: false
+ *         description: The maximum number of tasks to return. Defaults to 0, which means no limit.
  *     responses:
  *       200:
  *         description: Returns a list of completed tasks for the user
@@ -132,9 +139,10 @@
  *         description: Server error
  */
 
+
 /**
  * @swagger
- * /api/task/{taskId}:
+ * /api/deleteTask/{taskId}:
  *   delete:
  *     summary: Delete a task by ID
  *     tags: [Task]
