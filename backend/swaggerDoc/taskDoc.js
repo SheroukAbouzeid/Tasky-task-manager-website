@@ -139,6 +139,41 @@
  *         description: Server error
  */
 
+/**
+ * @swagger
+ * /api/getInProgressTasks:
+ *   get:
+ *     summary: Get in-progress tasks for a user
+ *     tags: [Task]
+ *     parameters:
+ *       - in: query
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the user to fetch in-progress tasks for
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 0
+ *         required: false
+ *         description: The maximum number of tasks to return. Defaults to 0, which means no limit.
+ *     responses:
+ *       200:
+ *         description: Returns a list of in-progress tasks for the user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Task'
+ *       404:
+ *         description: No in-progress tasks found for the user
+ *       500:
+ *         description: Server error
+ */
+
 
 /**
  * @swagger

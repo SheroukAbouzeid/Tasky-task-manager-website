@@ -84,6 +84,32 @@ export const getCompletedTasks = async (req, res) => {
   }
 };
 
+//--------------------------------------------getInProgressTasks--------------------------------------------
+
+export const getInProgressTasks = async (req, res) => {
+  const { userId } = req.query;
+  const limit = parseInt(req.query.limit, 10) || 0;
+
+  try{
+    const inProgressTasks = await Tasks.find({
+      userID: userId,
+      status: "inprogress",
+    }).limit(limit);
+
+    if (inProgressTasks.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No in progress tasks found for this user." });
+    }
+
+    res.status(200).json(inProgressTasks);
+  }
+  catch (error)
+  {
+    res.status(500).json({ message: error.message });
+ 
+  }
+}
 //--------------------------------------------deleteTask--------------------------------------------
 
 export const deleteTask = async (req, res) => {

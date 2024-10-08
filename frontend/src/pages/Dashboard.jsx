@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect} from "react";
 import styled from "styled-components";
 import AddTask from "../components/AddTask";
 
@@ -65,16 +65,18 @@ const Content = styled.div`
 `;
 
 const Task = ({ tasks, status }) => {
+  const filteredTasks = tasks
+    .filter((task) => task.status === status)
+    .slice(0, 3);
   return (
     <div>
-      {tasks.filter((task) => task.status === status).length > 0 ? (
-        tasks
-          .filter((task) => task.status === status)
-          .map((task, index) => (
-            <div key={index} style={{ color: "#222831", marginBottom: "10px" }}>
-              <p>{task.title}</p>
-            </div>
-          ))
+      {filteredTasks.length > 0 ? (
+        filteredTasks.map((task, index) => (
+          <div key={index} style={{ color: "#222831", marginBottom: "10px" }}>
+            <h4>{task.title}</h4>
+            <p>{task.description}</p>
+          </div>
+        ))
       ) : (
         <p style={{ color: "#222831" }}>
           No tasks {status === "inprogress" ? "in progress" : "completed"}
@@ -102,6 +104,30 @@ function Dashboard() {
     }
     setShowModal(false);
   };
+
+  // Function to fetch in-progress tasks
+  const fetchInProgressTasks = async () => {
+    try {
+      const userId = localStorage.getItem('userId'); // Replace with the actual userId
+      const limit = 3;
+      const response = await fetch(
+        `http://localhost:8000/api/getInProgressTasks?userId=${userId}&limit=${limit}`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setTasks(data);
+      } else {
+        console.error("Error fetching tasks: ", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
+  };
+
+  // Fetch tasks on component mount
+  useEffect(() => {
+    fetchInProgressTasks();
+  }, []);
 
   return (
     <>
