@@ -1,6 +1,7 @@
 import React, { useState,useEffect} from "react";
 import styled from "styled-components";
 import AddTask from "../components/AddTask";
+import TaskCalendar from "../components/TaskCalendar";
 
 const Header = styled.h3`
   margin: 10px;
@@ -172,7 +173,7 @@ function Dashboard() {
 
         <TaskCard>
           <h3>Calendar</h3>
-          <Content></Content>
+          <Content><TaskCalendar/></Content>
         </TaskCard>
       </TaskGrid2>
 

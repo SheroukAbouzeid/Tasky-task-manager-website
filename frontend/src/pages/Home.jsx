@@ -3,6 +3,7 @@ import styled from "styled-components";
 import SideNavBar from "../components/SideNavBar";
 import Dashboard from "./Dashboard";
 import { useNavigate } from "react-router-dom"; 
+import TaskCalendar from "../components/TaskCalendar";
 
 const MainDiv = styled.div`
   display: flex;
