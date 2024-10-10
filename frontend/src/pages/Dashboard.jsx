@@ -1,24 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import AddTask from "../components/AddTask";
+import TaskCalendar from "../components/TaskCalendar";
 
 const Header = styled.h3`
   margin: 10px;
   font-size: 32px;
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
 `;
 
 const TaskGrid1 = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: 40px;
+  grid-gap: 5%;
   margin-bottom: 5%;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr; /* 1 column on mobile */
+  }
 `;
 
 const TaskGrid2 = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 40px;
+  grid-gap: 5%;
   margin-bottom: 5%;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr; /* 1 column on all small screens */
+  }
 `;
 
 const TaskCard = styled.div`
@@ -28,6 +40,11 @@ const TaskCard = styled.div`
   border-radius: 10px;
   padding: 20px;
   color: #fff;
+
+  @media (max-width: 480px) {
+    font-size: 16px; /* Adjust font size on mobile */
+    padding: 10px;
+  }
 `;
 
 const GridCol = styled.div`
@@ -64,22 +81,27 @@ const Content = styled.div`
   min-height: 20vh;
 `;
 
-const Task = ({ tasks }) => {
+const Task = ({ tasks, status }) => {
+  const filteredTasks = tasks
+    .filter((task) => task.status === status)
+    .slice(0, 3);
   return (
     <div>
-      {tasks.length > 0 ? (
-        tasks.map((task, index) => (
-          <div key={index} style={{ color: "#222831", marginBottom: '10px' }}>
-            <p>{task.title}</p>
+      {filteredTasks.length > 0 ? (
+        filteredTasks.map((task, index) => (
+          <div key={index} style={{ color: "#222831", marginBottom: "10px" }}>
+            <h4>{task.title}</h4>
+            <p>{task.description}</p>
           </div>
         ))
       ) : (
-        <p style={{ color: "#222831" }}>No tasks in progress</p>
+        <p style={{ color: "#222831" }}>
+          No tasks {status === "inprogress" ? "in progress" : "completed"}
+        </p>
       )}
     </div>
   );
 };
-
 
 function Dashboard() {
   const [showModal, setShowModal] = useState(false);
@@ -99,6 +121,30 @@ function Dashboard() {
     }
     setShowModal(false);
   };
+
+  // Function to fetch in-progress tasks
+  const fetchInProgressTasks = async () => {
+    try {
+      const userId = localStorage.getItem("userId"); // Replace with the actual userId
+      const limit = 3;
+      const response = await fetch(
+        `http://localhost:8000/api/getInProgressTasks?userId=${userId}&limit=${limit}`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setTasks(data);
+      } else {
+        console.error("Error fetching tasks: ", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
+  };
+
+  // Fetch tasks on component mount
+  useEffect(() => {
+    fetchInProgressTasks();
+  }, []);
 
   return (
     <>
@@ -123,7 +169,7 @@ function Dashboard() {
           <GridCol>
             <GridButton onClick={handleAddTaskClick}>+</GridButton>
             <Content>
-              <Task tasks={tasks} />
+              <Task tasks={tasks} status="inprogress" />
             </Content>
           </GridCol>
         </TaskCard>
@@ -131,18 +177,19 @@ function Dashboard() {
         <TaskCard>
           <h3>Completed</h3>
           <GridCol>
-            <GridButton>+</GridButton>
             <Content
               style={{
                 background: "linear-gradient(to bottom, #32e0c4, #393e46)",
               }}
-            ></Content>
+            >
+              <Task tasks={tasks} status="completed" />
+            </Content>
           </GridCol>
         </TaskCard>
 
         <TaskCard>
           <h3>Calendar</h3>
-          <Content></Content>
+          <Content><TaskCalendar/></Content>
         </TaskCard>
       </TaskGrid2>
 

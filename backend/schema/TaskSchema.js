@@ -24,12 +24,24 @@ const TaskSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ["inprogress", "completed"],
-    required: true,
+    default: "inprogress",
   },
   userID: {
     type: String,
     required: true,
   },
+  steps: [
+    {
+      stepName: {
+        type: String,
+        required: true,
+      },
+      isComplete: {
+        type: Boolean,
+        default: false,
+      },
+    },
+  ],
 });
 
-export default mongoose.model("Task", TaskSchema,'Tasks');
+export default mongoose.model("Task", TaskSchema, "Tasks");

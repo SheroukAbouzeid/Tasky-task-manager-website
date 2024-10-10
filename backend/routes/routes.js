@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { loginUser, registerUser } from "../controllers/userController.js";
-import { addTask , getCompletedTasks, getUserTasks , deleteTask } from "../controllers/taskController.js";
+import { addTask , getCompletedTasks, getUserTasks ,getInProgressTasks, deleteTask } from "../controllers/taskController.js";
 
 const router = Router();
 
@@ -15,16 +15,19 @@ router.post("/login", loginUser);
 //--------------------------------------------------------task routes--------------------------------------------------------//
 
 // Add Task Route
-router.post('/task', addTask);
+router.post('/addTask', addTask);
 
 // get tasks by userID (from route parameter)
-router.get('/tasks/:userId', getUserTasks);
+router.get('/getTasks/:userId', getUserTasks);
 
 // GET completed tasks by userID (from query parameter)
-router.get('/tasks/completed', getCompletedTasks);
+router.get('/getCompletedTasks/', getCompletedTasks);
+
+// get inprogress tasks by userID (from query parameter)
+router.get('/getInProgressTasks/', getInProgressTasks);
 
 // delete task by taskID
-router.delete('/task/:taskId', deleteTask);
+router.delete('/deleteTask/:taskId', deleteTask);
 
 
 export default router;

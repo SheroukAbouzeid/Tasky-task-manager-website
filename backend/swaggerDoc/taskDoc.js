@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /api/task:
+ * /api/addTask:
  *   post:
  *     summary: Create a new task
  *     tags: [Task]
@@ -9,7 +9,53 @@
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Task'
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: The title of the task
+ *                 example: "Complete project report"
+ *               description:
+ *                 type: string
+ *                 description: Description of the task
+ *                 example: "Write and finalize the project report for the client"
+ *               dueDate:
+ *                 type: string
+ *                 description: Due date of the task
+ *                 example: "2024-10-20"
+ *               priority:
+ *                 type: string
+ *                 enum: ["high", "mid", "low"]
+ *                 description: Priority level of the task
+ *                 example: "high"
+ *               tag:
+ *                 type: string
+ *                 enum: ["work", "school", "home", "project", "health", "sports"]
+ *                 description: Tag for the task category
+ *                 example: "work"
+ *               status:
+ *                 type: string
+ *                 enum: ["inprogress", "completed"]
+ *                 description: Status of the task
+ *                 example: "inprogress"
+ *               userID:
+ *                 type: string
+ *                 description: ID of the user who owns the task
+ *                 example: "12345"
+ *               steps:
+ *                 type: array
+ *                 description: List of steps for the task
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     stepName:
+ *                       type: string
+ *                       description: Name of the step
+ *                       example: "Research"
+ *                     isComplete:
+ *                       type: boolean
+ *                       description: Completion status of the step
+ *                       example: false
  *     responses:
  *       201:
  *         description: Task created successfully
@@ -25,9 +71,9 @@
 
 /**
  * @swagger
- * /api/tasks/{userId}:
+ * /api/getTasks/{userId}:
  *   get:
- *     summary: Get all tasks for a specific user
+ *     summary: Get tasks for a specific user
  *     tags: [Task]
  *     parameters:
  *       - in: path
@@ -36,6 +82,13 @@
  *           type: string
  *         required: true
  *         description: The ID of the user whose tasks you want to retrieve
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 0
+ *         required: false
+ *         description: The maximum number of tasks to return. Defaults to 0, which means no limit.
  *     responses:
  *       200:
  *         description: Returns a list of tasks for the user
@@ -53,7 +106,7 @@
 
 /**
  * @swagger
- * /api/tasks/completed:
+ * /api/getCompletedTasks:
  *   get:
  *     summary: Get completed tasks for a user
  *     tags: [Task]
@@ -64,6 +117,13 @@
  *           type: string
  *         required: true
  *         description: The ID of the user to fetch completed tasks for
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 0
+ *         required: false
+ *         description: The maximum number of tasks to return. Defaults to 0, which means no limit.
  *     responses:
  *       200:
  *         description: Returns a list of completed tasks for the user
@@ -81,7 +141,43 @@
 
 /**
  * @swagger
- * /api/task/{taskId}:
+ * /api/getInProgressTasks:
+ *   get:
+ *     summary: Get in-progress tasks for a user
+ *     tags: [Task]
+ *     parameters:
+ *       - in: query
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the user to fetch in-progress tasks for
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 0
+ *         required: false
+ *         description: The maximum number of tasks to return. Defaults to 0, which means no limit.
+ *     responses:
+ *       200:
+ *         description: Returns a list of in-progress tasks for the user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Task'
+ *       404:
+ *         description: No in-progress tasks found for the user
+ *       500:
+ *         description: Server error
+ */
+
+
+/**
+ * @swagger
+ * /api/deleteTask/{taskId}:
  *   delete:
  *     summary: Delete a task by ID
  *     tags: [Task]
