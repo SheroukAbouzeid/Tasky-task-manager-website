@@ -10,6 +10,19 @@ const StyledSidebar = styled.div`
   justify-content: space-around;
   font-size: 20px;
   color: #b3b3b3;
+  position: fixed;
+  top: 0;
+  left: ${(props) => (props.$isNavOpen ? "0" : "-100%")};
+  height: 100%;
+  width: 60%;
+  background: linear-gradient(to bottom, #393e46, #000);
+  transition: left 0.3s ease-in-out;
+
+  @media (min-width: 768px) {
+    width: 100%;
+    left: 0; /*visible on larger screens */
+    position: relative;
+  }
 `;
 
 const ToggleButton = styled.button`
@@ -82,28 +95,33 @@ const User = styled.h3`
     color: #32e0c4;
   }
 `;
+const NavButton = styled.button`
+  background: transparent;
+  border: none;
+  color: #b3b3b3;
+  font-size: 36px;
+  font-weight: bold;
+  cursor: pointer;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 1000; /* button is above everything else */
+
+  &:hover {
+    color: #32e0c4;
+  }
+
+  @media (min-width: 768px) {
+    display: none; /* Hide the button on larger screens */
+  }
+`;
 
 function SideNavBar() {
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [tasks, setTasks] = useState([]);
-  // const fetchTasks = async () => {
-  //   try {
-  //     const userId = localStorage.getItem("userID");
-  //     const response = await fetch(`/api/tasks/:userId`);
 
-  //     if (!response.ok) {
-  //       const errorText = await response.text();
-  //       console.error("Error fetching tasks:", errorText);
-  //       throw new Error(`HTTP error! status: ${response.status}`);
-  //     }
-
-  //     const data = await response.json();
-  //     setTasks(data);
-  //   } catch (error) {
-  //     console.error("Fetch tasks error:", error);
-  //   }
-  // };
   const handleShowModal = () => {
     setShowModal(!showModal);
   };
@@ -125,72 +143,80 @@ function SideNavBar() {
   const lastName = localStorage.getItem("lastName");
 
   return (
-    <StyledSidebar>
-      <img
-        src="../assets/LOGO_cropped.png"
-        alt="Logo"
-        style={{ width: "80%", marginLeft: "10%" }}
-      />
-      <List
-        style={{
-          borderBottom: "thin solid #393e46",
-          borderTop: "thin solid #222831",
-        }}
-      >
-        <ListItem>
-          <StyledImage src="../assets/dashboard.png" alt="Dashboard" />
-          Dashboard
-        </ListItem>
-        <ListItem>
-          <StyledImage src="../assets/Calendar.png" alt="Calendar" />
-          Calendar
-        </ListItem>
-      </List>
-      <List style={{ borderBottom: "thin solid #393e46" }}>
-        <ListItem>
-          <StyledImage src="../assets/Tasks.png" alt="Tasks" />
-          Tasks <ToggleButton onClick={handleListToggle}>≡</ToggleButton>
-        </ListItem>
-        {open && (
-          <List style={{ borderLeft: "thin solid #32e0c4", marginLeft: "20%" }}>
-            <InnerListItem onClick={handleShowModal}>
-              <ListSpan style={{ color: "#b3b3b3" }}>⦿ </ListSpan> In Progress
-            </InnerListItem>
-            <InnerListItem>
-              <ListSpan style={{ color: "#32e0c4" }}>★ </ListSpan> Completed
-            </InnerListItem>
-          </List>
-        )}
-      </List>
-      <List style={{ borderBottom: "thin solid #393e46" }}>
-        <ListItem>
-          <StyledImage src="../assets/settings.png" alt="settings" /> Settings
-        </ListItem>
-        <ListItem>
-          <StyledImage
-            src="../assets/logout.svg"
-            alt="logout"
-            style={{ width: "10%" }}
-          />
-          <StyledLink to="/" onClickCapture={handleLogOut}>
-            Log out
-          </StyledLink>
-        </ListItem>
-      </List>
-      <div>
-        <User>
-          <StyledImage src="../assets/User.png" alt="User" />
-          {firstName} {lastName}
-        </User>
-        <p>{email}</p>
-      </div>
+    <>
+      {/* Toggle Button for Mobile */}
+      <NavButton onClick={() => setIsNavOpen(!isNavOpen)}>
+        {isNavOpen ? "×" : "≡"}
+      </NavButton>
+      <StyledSidebar $isNavOpen={isNavOpen}>
+        <img
+          src="../assets/LOGO_cropped.png"
+          alt="Logo"
+          style={{ width: "80%", marginLeft: "10%" }}
+        />
+        <List
+          style={{
+            borderBottom: "thin solid #393e46",
+            borderTop: "thin solid #222831",
+          }}
+        >
+          <ListItem>
+            <StyledImage src="../assets/dashboard.png" alt="Dashboard" />
+            Dashboard
+          </ListItem>
+          <ListItem>
+            <StyledImage src="../assets/Calendar.png" alt="Calendar" />
+            Calendar
+          </ListItem>
+        </List>
+        <List style={{ borderBottom: "thin solid #393e46" }}>
+          <ListItem>
+            <StyledImage src="../assets/Tasks.png" alt="Tasks" />
+            Tasks <ToggleButton onClick={handleListToggle}>≡</ToggleButton>
+          </ListItem>
+          {open && (
+            <List
+              style={{ borderLeft: "thin solid #32e0c4", marginLeft: "10%" }}
+            >
+              <InnerListItem onClick={handleShowModal}>
+                <ListSpan style={{ color: "#b3b3b3" }}>⦿ </ListSpan> In Progress
+              </InnerListItem>
+              <InnerListItem>
+                <ListSpan style={{ color: "#32e0c4" }}>★ </ListSpan> Completed
+              </InnerListItem>
+            </List>
+          )}
+        </List>
+        <List style={{ borderBottom: "thin solid #393e46" }}>
+          <ListItem>
+            <StyledImage src="../assets/settings.png" alt="settings" /> Settings
+          </ListItem>
+          <ListItem>
+            <StyledImage
+              src="../assets/logout.svg"
+              alt="logout"
+              style={{ width: "10%" }}
+            />
+            <StyledLink to="/" onClickCapture={handleLogOut}>
+              Log out
+            </StyledLink>
+          </ListItem>
+        </List>
+        <div>
+          <User>
+            <StyledImage src="../assets/User.png" alt="User" />
+            {firstName} {lastName}
+          </User>
+          <p style={{ wordBreak: "break-word" }}>{email}</p>
+        </div>
 
-      <InProgress
-        showModal={showModal}
-        handleClose={handleShowModal}
-        tasks={tasks}
-      />
-    </StyledSidebar>
+        <InProgress
+          showModal={showModal}
+          handleClose={handleShowModal}
+          tasks={tasks}
+        />
+      </StyledSidebar>
+    </>
   );
 }
 
