@@ -2,6 +2,18 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import AddTask from "../components/AddTask";
 import TaskCalendar from "../components/TaskCalendar";
+import { BarChart } from '@mui/x-charts/BarChart';
+import { PieChart } from '@mui/x-charts/PieChart';
+
+const chartSetting = {
+  xAxis: [
+    {
+      label: 'Rainfall (mm)',
+    },
+  ],
+  width: 500,
+  height: 400,
+};
 
 const Header = styled.h3`
   margin: 10px;
@@ -40,11 +52,6 @@ const TaskCard = styled.div`
   border-radius: 10px;
   padding: 20px;
   color: #fff;
-
-  @media (max-width: 480px) {
-    font-size: 16px; /* Adjust font size on mobile */
-    padding: 10px;
-  }
 `;
 
 const GridCol = styled.div`
@@ -77,12 +84,11 @@ const Content = styled.div`
   border-radius: 10px;
   padding: 20px;
   margin: 20px 0;
-  height: auto;
   min-height: 20vh;
 `;
 
 const TaskItem = styled.div`
-  background: linear-gradient(to bottom, #393e46,#222831);
+  background: linear-gradient(to bottom, #393e46, #222831);
   color: #32e0c4;
   padding: 10px;
   border-radius: 10px;
@@ -92,6 +98,16 @@ const TaskItem = styled.div`
 
   &:hover {
     transform: scale(1.05);
+  }
+
+  h4 {
+    margin: 0;
+    font-size: 18px;
+  }
+
+  p {
+    margin: 5px 0 0 0;
+    font-size: 14px;
   }
 `;
 
@@ -129,7 +145,25 @@ const Task = ({ tasks, status }) => {
 
 function Dashboard() {
   const [showModal, setShowModal] = useState(false);
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState([
+    { title: "Task 1", description: "Description for task 1", status: "inprogress" },
+    { title: "Task 2", description: "Description for task 2", status: "inprogress" },
+    { title: "Task 3", description: "Description for task 3", status: "completed" },
+    { title: "Task 4", description: "Description for task 4", status: "completed" },
+  ]);
+  
+  const [chartData, setChartData] = useState([
+    { month: 'January', rainfall: 100 },
+    { month: 'February', rainfall: 150 },
+    { month: 'March', rainfall: 120 },
+    { month: 'April', rainfall: 90 },
+    { month: 'May', rainfall: 200 },
+  ]); // Sample chart data
+
+  const pieChartData = [
+    { category: "In Progress", value: tasks.filter(task => task.status === "inprogress").length },
+    { category: "Completed", value: tasks.filter(task => task.status === "completed").length },
+  ];
 
   const handleAddTaskClick = () => {
     setShowModal(true);
@@ -146,28 +180,10 @@ function Dashboard() {
     setShowModal(false);
   };
 
-  // Function to fetch in-progress tasks
-  const fetchInProgressTasks = async () => {
-    try {
-      const userId = localStorage.getItem("userId"); // Replace with the actual userId
-      const limit = 4;
-      const response = await fetch(
-        `http://localhost:8000/api/getInProgressTasks?userId=${userId}&limit=${limit}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setTasks(data);
-      } else {
-        console.error("Error fetching tasks: ", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching tasks:", error);
-    }
-  };
-
-  // Fetch tasks on component mount
+  // Fetch tasks on component mount (mock data is already in state)
   useEffect(() => {
-    fetchInProgressTasks();
+    // Normally, you would fetch data here
+    // fetchInProgressTasks();
   }, []);
 
   return (
@@ -179,11 +195,27 @@ function Dashboard() {
           style={{ background: "linear-gradient(to bottom, #32e0c4, #393e46)" }}
         >
           <h3 style={{ color: "#222831" }}>Statistics</h3>
+          <BarChart
+            dataset={chartData} // Pass the chart data
+            yAxis={[{ scaleType: 'band', dataKey: 'month' }]}
+            series={[{ dataKey: 'rainfall', label: 'Rainfall (mm)' }]} // Adjust dataKey to match your dataset
+            layout="horizontal"
+            {...chartSetting}
+          />
         </TaskCard>
         <TaskCard
           style={{ background: "linear-gradient(to bottom, #b3b3b3, #393e46)" }}
         >
           <h3 style={{ color: "#222831" }}>Progress Tracker</h3>
+          <PieChart
+            series={[{
+              data: pieChartData,
+              highlightScope: { fade: 'global', highlight: 'item' },
+              faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
+              valueFormatter: (value) => `${value}`,
+            }]}
+            height={200}
+          />
         </TaskCard>
       </TaskGrid1>
 

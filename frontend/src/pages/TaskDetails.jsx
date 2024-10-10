@@ -3,6 +3,38 @@ import styled from "styled-components";
 import AddTask from "../components/AddTask";
 import TaskCalendar from "../components/TaskCalendar";
 import SideNavBar from "../components/SideNavBar";
+import { DataGrid } from '@mui/x-data-grid';
+import Paper from '@mui/material/Paper';
+import {
+  GaugeContainer,
+  GaugeValueArc,
+  GaugeReferenceArc,
+  useGaugeState,
+} from '@mui/x-charts/Gauge';
+
+function GaugePointer() {
+    const { valueAngle, outerRadius, cx, cy } = useGaugeState();
+  
+    if (valueAngle === null) {
+      // No value to display
+      return null;
+    }
+  
+    const target = {
+      x: cx + outerRadius * Math.sin(valueAngle),
+      y: cy - outerRadius * Math.cos(valueAngle),
+    };
+    return (
+      <g>
+        <circle cx={cx} cy={cy} r={5} fill="red" />
+        <path
+          d={`M ${cx} ${cy} L ${target.x} ${target.y}`}
+          stroke="red"
+          strokeWidth={3}
+        />
+      </g>
+    );
+  }
 
 const Header = styled.h3`
   margin: 10px;
@@ -140,6 +172,30 @@ const TaskGrid = styled.div`
   grid-gap: 10px;
 `;
 
+const columns = [
+    { field: 'id', headerName: 'ID', width: 70 },
+    {
+      field: 'steps',
+      headerName: 'Steps',
+      description: 'This column has a value getter and is not sortable.',
+      sortable: false,
+      width: 160,
+      valueGetter: (value, row) => `${row.firstName || ''} ${row.lastName || ''}`,
+    },
+  ];
+  
+  const rows = [
+    { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
+    { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
+    { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
+    { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
+    { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
+    { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
+    { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
+    { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
+    { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+  ];
+
 const Task = ({ tasks, status }) => {
   const filteredTasks = tasks
     .filter((task) => task.status === status)
@@ -224,15 +280,34 @@ function TaskDetails() {
           style={{ background: "linear-gradient(to bottom, #32e0c4, #393e46)" }}
         >
           <h3 style={{ color: "#222831" }}>Statistics</h3>
+          <Paper sx={{ height: 400, width: '100%' }}>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+      
+        pageSizeOptions={[5, 10]}
+        checkboxSelection
+        sx={{ border: 0 }}
+      />
+    </Paper>
         </TaskCard>
         <TaskCard
           style={{ background: "linear-gradient(to bottom, #b3b3b3, #393e46)" }}
         >
           <h3 style={{ color: "#222831" }}>Progress Tracker</h3>
+          <GaugeContainer
+      width={200}
+      height={200}
+      startAngle={-110}
+      endAngle={110}
+      value={30}
+    >
+      <GaugeReferenceArc />
+      <GaugeValueArc />
+      <GaugePointer />
+    </GaugeContainer>
         </TaskCard>
       </TaskGrid1>
-
-      
 
       <AddTask
         showModal={showModal}
