@@ -2,11 +2,19 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import SideNavBar from "../components/SideNavBar";
 import Dashboard from "./Dashboard";
+<<<<<<< HEAD
 import { useNavigate } from "react-router-dom"; 
 import TaskCalendar from "../components/TaskCalendar";
+=======
+import { useNavigate } from "react-router-dom";
+>>>>>>> 8d49c9224584caec688936313bb5036963c623a5
 
 const MainDiv = styled.div`
   display: flex;
+
+  @media (max-width: 480px) {
+    flex-direction: column; /* mobile */
+  }
 `;
 
 const SideBarWrapper = styled.div`
@@ -17,6 +25,10 @@ const SideBarWrapper = styled.div`
   border-right: thin solid transparent;
   border-image: linear-gradient(to bottom, #b3b3b3, #393e46);
   border-image-slice: 1;
+
+  @media (max-width: 768px) {
+    flex: 0;
+  }
 `;
 
 const DashboardWrapper = styled.div`
@@ -26,12 +38,20 @@ const DashboardWrapper = styled.div`
   color: white;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 768px) {
+    flex: 1; /* Full width small screens */
+    padding: 5% 10%;
+  }
 `;
 
 const HomeHeader = styled.h1`
   font-size: 3em;
   font-weight: bold;
   margin-bottom: 30px;
+  @media (max-width: 768px) {
+    font-size: 2em;
+  }
 `;
 
 const Word = styled.span`
@@ -57,7 +77,7 @@ const TaskCard = styled.div`
 `;
 
 const Home = () => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const firstName = localStorage.getItem("firstName");
 
   useEffect(() => {

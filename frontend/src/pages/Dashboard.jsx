@@ -1,4 +1,4 @@
-import React, { useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import AddTask from "../components/AddTask";
 import TaskCalendar from "../components/TaskCalendar";
@@ -6,20 +6,31 @@ import TaskCalendar from "../components/TaskCalendar";
 const Header = styled.h3`
   margin: 10px;
   font-size: 32px;
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
 `;
 
 const TaskGrid1 = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: 40px;
+  grid-gap: 5%;
   margin-bottom: 5%;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr; /* 1 column on mobile */
+  }
 `;
 
 const TaskGrid2 = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 40px;
+  grid-gap: 5%;
   margin-bottom: 5%;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr; /* 1 column on all small screens */
+  }
 `;
 
 const TaskCard = styled.div`
@@ -29,6 +40,11 @@ const TaskCard = styled.div`
   border-radius: 10px;
   padding: 20px;
   color: #fff;
+
+  @media (max-width: 480px) {
+    font-size: 16px; /* Adjust font size on mobile */
+    padding: 10px;
+  }
 `;
 
 const GridCol = styled.div`
@@ -109,7 +125,7 @@ function Dashboard() {
   // Function to fetch in-progress tasks
   const fetchInProgressTasks = async () => {
     try {
-      const userId = localStorage.getItem('userId'); // Replace with the actual userId
+      const userId = localStorage.getItem("userId"); // Replace with the actual userId
       const limit = 3;
       const response = await fetch(
         `http://localhost:8000/api/getInProgressTasks?userId=${userId}&limit=${limit}`
