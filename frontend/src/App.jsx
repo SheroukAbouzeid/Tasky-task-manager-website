@@ -7,12 +7,15 @@ import ContactPage from './pages/ContactPage';
 import LogIn from './pages/LogIn';
 import Register from './pages/Register';
 import Home from './pages/Home';
+import InProgress from './pages/InProgress';
+import Completed from './pages/Completed';
+
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <Routes>
+      <Routes>
           <Route path="/" element={<LandingPage />}>
             <Route index element={<HomePage />} /> 
             <Route path="about" element={<AboutPage />} />
@@ -23,7 +26,7 @@ function App() {
           <Route path="/home" element={<Home />} />
         </Routes>
       </div>
-    </Router>
+    </Router>   
   );
 }
 
