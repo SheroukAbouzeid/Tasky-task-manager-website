@@ -4,7 +4,8 @@ import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 import SideNavBar from "../components/SideNavBar";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import Checkbox from "@mui/material/Checkbox";
+import { useNavigate } from "react-router-dom";
 
 const MainDiv = styled.div`
   display: flex;
@@ -35,21 +36,6 @@ const SideBarWrapper = styled.div`
   }
 `;
 
-const DashboardWrapper = styled.div`
-  flex: 0.8;
-  background: #222831;
-  padding: 2% 3%;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-
-  @media (max-width: 768px) {
-    flex: 1; /* Full width small screens */
-    padding: 5% 10%;
-  }
-`;
-
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
   const [paginationModel, setPaginationModel] = useState({
@@ -57,53 +43,89 @@ const Tasks = () => {
     pageSize: 10,
   });
 
-  const navigate = useNavigate(); // Initialize the navigate function
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTasks = async () => {
       try {
         const userId = localStorage.getItem("userId");
-        const limit = 0;
         const response = await fetch(
-          `http://localhost:8000/api/getTasks/${userId}?limit=${limit}`
+          `http://localhost:8000/api/getTasks/${userId}`
         );
-        if (!response.ok) {
-          throw new Error("Failed to fetch tasks");
-        }
+        if (!response.ok) throw new Error("Failed to fetch tasks");
         const data = await response.json();
         setTasks(data);
       } catch (error) {
         console.error("Error fetching tasks:", error);
       }
     };
-
     fetchTasks();
   }, []);
 
   const handleViewTask = (task) => {
-    // Navigate to the task details page with the task ID
     navigate(`/taskdetails/${task._id}`);
   };
 
   const handleDeleteTask = async (taskId) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/deleteTask/${taskId}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) {
-        throw new Error("Failed to delete task");
-      }
+      const response = await fetch(
+        `http://localhost:8000/api/deleteTask/${taskId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (!response.ok) throw new Error("Failed to delete task");
       setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
     } catch (error) {
       console.error("Error deleting task:", error);
     }
   };
 
+  const handleStatusChange = async (taskId, newStatus) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/api/updateTask/${taskId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status: newStatus }),
+        }
+      );
+      if (!response.ok) throw new Error("Failed to update task status");
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task._id === taskId ? { ...task, status: newStatus } : task
+        )
+      );
+    } catch (error) {
+      console.error("Error updating task status:", error);
+    }
+  };
+
   const columns = [
+    {
+      field: "status",
+      headerName: "Completed",
+      width: 160,
+      renderCell: (params) => (
+        <Checkbox
+          checked={params.row.status === "completed"}
+          onChange={() =>
+            handleStatusChange(
+              params.row._id,
+              params.row.status === "completed" ? "pending" : "completed"
+            )
+          }
+          color="primary"
+        />
+      ),
+    },
     { field: "title", headerName: "Title", width: 160 },
     { field: "priority", headerName: "Priority", width: 160 },
     { field: "tag", headerName: "Tag", width: 160 },
-    { field: "status", headerName: "Status", width: 160 },
+
     { field: "dueDate", headerName: "Due Date", width: 160 },
     {
       field: "viewTask",
@@ -150,9 +172,8 @@ const Tasks = () => {
             pageSizeOptions={[5, 10, 20]}
             paginationModel={paginationModel}
             onPaginationModelChange={setPaginationModel}
-            checkboxSelection
             sx={{ border: 0 }}
-            getRowId={(row) => row._id} // Ensure each row has a unique identifier
+            getRowId={(row) => row._id}
           />
         </Paper>
       </Container>
