@@ -71,6 +71,80 @@
 
 /**
  * @swagger
+ * /api/updateTask/{taskId}:
+ *   put:
+ *     summary: Update an existing task
+ *     tags: [Task]
+ *     parameters:
+ *       - in: path
+ *         name: taskId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the task to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: The title of the task
+ *                 example: "Update project report"
+ *               description:
+ *                 type: string
+ *                 description: Description of the task
+ *                 example: "Review and edit the project report for accuracy"
+ *               dueDate:
+ *                 type: string
+ *                 description: Due date of the task
+ *                 example: "2024-11-15"
+ *               priority:
+ *                 type: string
+ *                 enum: ["high", "mid", "low"]
+ *                 description: Priority level of the task
+ *                 example: "mid"
+ *               tag:
+ *                 type: string
+ *                 enum: ["work", "school", "home", "project", "health", "sports"]
+ *                 description: Tag for the task category
+ *                 example: "project"
+ *               status:
+ *                 type: string
+ *                 enum: ["inprogress", "completed"]
+ *                 description: Status of the task
+ *                 example: "completed"
+ *               steps:
+ *                 type: array
+ *                 description: List of steps for the task
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     stepName:
+ *                       type: string
+ *                       description: Name of the step
+ *                       example: "Editing"
+ *                     isComplete:
+ *                       type: boolean
+ *                       description: Completion status of the step
+ *                       example: true
+ *     responses:
+ *       200:
+ *         description: Task updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Task'
+ *       404:
+ *         description: Task not found
+ *       500:
+ *         description: Server error
+ */
+
+/**
+ * @swagger
  * /api/getTasks/{userId}:
  *   get:
  *     summary: Get tasks for a specific user

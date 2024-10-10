@@ -36,6 +36,27 @@ export const addTask = async (req, res) => {
   }
 };
 
+//------------------------------------------updateTask------------------------------------------//
+
+export const updateTask = async(req,res) => {
+  const { taskId } = req.params;
+  const updates = req.body;
+
+  try {
+    const updatedTask = await Tasks.findByIdAndUpdate(taskId, updates, { new: true });
+
+    if (!updatedTask) {
+      return res.status(404).json({ message: "Task not found." });
+    }
+
+    res.status(200).json(updatedTask);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+
+}
+
 //--------------------------------------------getUserTasks--------------------------------------------
 
 export const getUserTasks = async (req, res) => {
