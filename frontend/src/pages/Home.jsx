@@ -2,12 +2,8 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import SideNavBar from "../components/SideNavBar";
 import Dashboard from "./Dashboard";
-<<<<<<< HEAD
 import { useNavigate } from "react-router-dom"; 
-import TaskCalendar from "../components/TaskCalendar";
-=======
-import { useNavigate } from "react-router-dom";
->>>>>>> 8d49c9224584caec688936313bb5036963c623a5
+
 
 const MainDiv = styled.div`
   display: flex;
