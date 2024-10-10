@@ -150,7 +150,7 @@ function Dashboard() {
   const fetchInProgressTasks = async () => {
     try {
       const userId = localStorage.getItem("userId"); // Replace with the actual userId
-      const limit = 3;
+      const limit = 4;
       const response = await fetch(
         `http://localhost:8000/api/getInProgressTasks?userId=${userId}&limit=${limit}`
       );

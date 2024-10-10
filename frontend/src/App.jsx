@@ -9,24 +9,28 @@ import Register from './pages/Register';
 import Home from './pages/Home';
 import InProgress from './pages/InProgress';
 import Completed from './pages/Completed';
+import Tasks from './pages/Tasks';
 
 
 function App() {
   return (
     <Router>
       <div className="App">
-      <Routes>
+        <Routes>
           <Route path="/" element={<LandingPage />}>
-            <Route index element={<HomePage />} /> 
+            <Route index element={<HomePage />} />
             <Route path="about" element={<AboutPage />} />
             <Route path="contact" element={<ContactPage />} />
             <Route path="login" element={<LogIn />} />
             <Route path="register" element={<Register />} />
           </Route>
           <Route path="/home" element={<Home />} />
+          <Route path="inProgress" element={<InProgress />} />
+          <Route path="completed" element={<Completed />} />
+          <Route path="tasks" element={<Tasks />} />
         </Routes>
       </div>
-    </Router>   
+    </Router>
   );
 }
 

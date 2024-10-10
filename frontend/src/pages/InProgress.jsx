@@ -31,7 +31,7 @@ const DashboardWrapper = styled.div`
 
 const TaskContainer = styled.div`
   margin-top: 20px;
-  disp
+  
 `;
 
 const SectionTitle = styled.h3`
