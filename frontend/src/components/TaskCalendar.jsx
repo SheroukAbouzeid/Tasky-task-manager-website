@@ -60,8 +60,9 @@ const TaskCalendar = () => {
 
 const limit = 0;
 const response = await fetch(
-  `http://localhost:8000/api/getTasks?userId=${userId}&limit=${limit}`
+  `http://localhost:8000/api/getTasks/${userId}?limit=${limit}`
 );
+
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
