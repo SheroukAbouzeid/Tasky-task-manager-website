@@ -10,6 +10,7 @@ import Home from './pages/Home';
 import InProgress from './pages/InProgress';
 import Completed from './pages/Completed';
 import Tasks from './pages/Tasks';
+import TaskDetails from './pages/TaskDetails';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route path="inProgress" element={<InProgress />} />
           <Route path="completed" element={<Completed />} />
           <Route path="tasks" element={<Tasks />} />
+          <Route path="taskdetails/:id" element={<TaskDetails />} />
         </Routes>
       </div>
     </Router>
