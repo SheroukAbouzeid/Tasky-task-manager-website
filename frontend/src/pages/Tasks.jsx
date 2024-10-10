@@ -5,6 +5,7 @@ import Paper from "@mui/material/Paper";
 import SideNavBar from "../components/SideNavBar";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
+import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 
 const MainDiv = styled.div`
@@ -13,13 +14,15 @@ const MainDiv = styled.div`
   height: 100vh;
 
   @media (max-width: 480px) {
-    flex-direction: column; /* mobile */
+    flex-direction: column;
   }
 `;
 
 const Container = styled.div`
   display: flex;
   flex: 0.8;
+  flex-direction: column;
+  padding: 20px;
 `;
 
 const SideBarWrapper = styled.div`
@@ -38,6 +41,7 @@ const SideBarWrapper = styled.div`
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
     pageSize: 10,
@@ -104,6 +108,18 @@ const Tasks = () => {
     }
   };
 
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredTasks = tasks.filter(
+    (task) =>
+      task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      task.priority.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      task.tag.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      task.status.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const columns = [
     {
       field: "status",
@@ -115,7 +131,7 @@ const Tasks = () => {
           onChange={() =>
             handleStatusChange(
               params.row._id,
-              params.row.status === "completed" ? "pending" : "completed"
+              params.row.status === "completed" ? "inprogress" : "completed"
             )
           }
           color="primary"
@@ -125,7 +141,6 @@ const Tasks = () => {
     { field: "title", headerName: "Title", width: 160 },
     { field: "priority", headerName: "Priority", width: 160 },
     { field: "tag", headerName: "Tag", width: 160 },
-
     { field: "dueDate", headerName: "Due Date", width: 160 },
     {
       field: "viewTask",
@@ -145,6 +160,8 @@ const Tasks = () => {
       field: "delete",
       headerName: "Delete",
       width: 160,
+      sortable: false,
+      filterable: false,
       renderCell: (params) => (
         <Button
           variant="contained"
@@ -164,9 +181,16 @@ const Tasks = () => {
       </SideBarWrapper>
 
       <Container>
+        <TextField
+          label="Search Tasks"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          onChange={handleSearchChange}
+        />
         <Paper sx={{ height: 700, width: "100%" }}>
           <DataGrid
-            rows={tasks}
+            rows={filteredTasks}
             columns={columns}
             pagination
             pageSizeOptions={[5, 10, 20]}
