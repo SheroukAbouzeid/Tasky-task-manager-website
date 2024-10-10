@@ -16,6 +16,9 @@ const SideBanner = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (max-width: 768px) {
+    display: none; /* Hide the SideBanner on small screens */
+  }
 `;
 
 const SideContainer = styled.div`
@@ -216,11 +219,10 @@ const LogIn = () => {
         setSubmissionMessage("Login successful!");
         navigate("/home");
         console.log(result.userId);
-        localStorage.setItem('userId', result.userId);
-        localStorage.setItem('firstName', result.firstName);
-        localStorage.setItem('lastName', result.lastName);
-        localStorage.setItem('email', result.email);
-
+        localStorage.setItem("userId", result.userId);
+        localStorage.setItem("firstName", result.firstName);
+        localStorage.setItem("lastName", result.lastName);
+        localStorage.setItem("email", result.email);
       } else {
         const error = await response.json();
         console.log(error);
@@ -286,7 +288,9 @@ const LogIn = () => {
           <LogInFormSignup>
             <p>
               Don't have an account?{" "}
-              <a href="./Register" className="highlighted">Sign Up</a>
+              <a href="./Register" className="highlighted">
+                Sign Up
+              </a>
             </p>
           </LogInFormSignup>
         </LogInFormContainer>
