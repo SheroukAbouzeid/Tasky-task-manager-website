@@ -81,25 +81,49 @@ const Content = styled.div`
   min-height: 20vh;
 `;
 
+const TaskItem = styled.div`
+  background: linear-gradient(to bottom, #393e46,#222831);
+  color: #32e0c4;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 2px 2px 5px #222831;
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
+const TaskGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-gap: 10px;
+`;
+
 const Task = ({ tasks, status }) => {
   const filteredTasks = tasks
     .filter((task) => task.status === status)
     .slice(0, 3);
+
+  // Check if there are any tasks to display
+  if (filteredTasks.length === 0) {
+    return (
+      <p style={{ color: "#222831" }}>
+        No tasks {status === "inprogress" ? "in progress" : "completed"}
+      </p>
+    );
+  }
+
   return (
-    <div>
-      {filteredTasks.length > 0 ? (
-        filteredTasks.map((task, index) => (
-          <div key={index} style={{ color: "#222831", marginBottom: "10px" }}>
-            <h4>{task.title}</h4>
-            <p>{task.description}</p>
-          </div>
-        ))
-      ) : (
-        <p style={{ color: "#222831" }}>
-          No tasks {status === "inprogress" ? "in progress" : "completed"}
-        </p>
-      )}
-    </div>
+    <TaskGrid>
+      {filteredTasks.map((task, index) => (
+        <TaskItem key={index}>
+          <h4>{task.title}</h4>
+          <p>{task.description}</p>
+        </TaskItem>
+      ))}
+    </TaskGrid>
   );
 };
 
@@ -189,7 +213,9 @@ function Dashboard() {
 
         <TaskCard>
           <h3>Calendar</h3>
-          <Content><TaskCalendar/></Content>
+          <Content>
+            <TaskCalendar />
+          </Content>
         </TaskCard>
       </TaskGrid2>
 
