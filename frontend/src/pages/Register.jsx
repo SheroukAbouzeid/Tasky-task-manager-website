@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const MainDiv = styled.div`
   display: flex;
@@ -15,6 +15,9 @@ const SideBanner = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (max-width: 768px) {
+    display: none; /* Hide the SideBanner on small screens */
+  }
 `;
 
 const SideContainer = styled.div`
@@ -121,19 +124,19 @@ const Inputs = styled.div`
     flex: 1;
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #ffffff; 
+    border: 1px solid #ffffff;
     border-radius: 5px;
-    background-color: transparent; 
+    background-color: transparent;
     color: #ffffff; /* White text color */
-    transition: border-color 0.3s, color 0.3s; 
+    transition: border-color 0.3s, color 0.3s;
 
     &:hover {
       border-color: #32e0c4;
     }
 
     &:focus {
-      border-color: #32e0c4; 
-      outline: none; 
+      border-color: #32e0c4;
+      outline: none;
     }
   }
 `;
@@ -173,12 +176,12 @@ const RegisterFormSignin = styled.div`
     color: #ffffff;
 
     .highlighted {
-      color: #32e0c4; 
+      color: #32e0c4;
       cursor: pointer;
-      transition: color 0.3s; 
+      transition: color 0.3s;
 
       &:hover {
-        color: #ffffff; 
+        color: #ffffff;
       }
     }
   }
@@ -187,13 +190,13 @@ const RegisterFormSignin = styled.div`
 /* Handel form input data*/
 const Register = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
   });
-  const [submissionMessage, setSubmissionMessage] = useState('');
-  const navigate = useNavigate(); 
+  const [submissionMessage, setSubmissionMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -217,7 +220,7 @@ const Register = () => {
         const result = await response.json();
         console.log(result); // You can handle the response data here
         setSubmissionMessage("Registration successful!");
-        navigate('/login');
+        navigate("/login");
       } else {
         const error = await response.json();
         console.log(error);
@@ -228,7 +231,6 @@ const Register = () => {
       setSubmissionMessage("Something went wrong. Please try again.");
     }
   };
-
 
   return (
     <MainDiv>
@@ -256,25 +258,56 @@ const Register = () => {
           </RegisterFormTitle>
           <RegisterFormInputs>
             <Inputs>
-              <input type="text" name="firstName" placeholder="First Name" value={formData.firstName} onChange={handleChange}/>
+              <input
+                type="text"
+                name="firstName"
+                placeholder="First Name"
+                value={formData.firstName}
+                onChange={handleChange}
+              />
             </Inputs>
             <Inputs>
-              <input type="text" name="lastName" placeholder="Last Name" value={formData.lastName} onChange={handleChange}/>
+              <input
+                type="text"
+                name="lastName"
+                placeholder="Last Name"
+                value={formData.lastName}
+                onChange={handleChange}
+              />
             </Inputs>
             <Inputs>
-              <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange}/>
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+              />
             </Inputs>
             <Inputs>
-              <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange}/>
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+              />
             </Inputs>
-          {submissionMessage && <Message><p>{submissionMessage}</p></Message>}  
+            {submissionMessage && (
+              <Message>
+                <p>{submissionMessage}</p>
+              </Message>
+            )}
           </RegisterFormInputs>
           <RegisterFormButton>
             <button type="submit">Register</button>
           </RegisterFormButton>
           <RegisterFormSignin>
             <p>
-              Already have an account? <a href="./LogIn" className="highlighted">Sign In</a>
+              Already have an account?{" "}
+              <a href="./LogIn" className="highlighted">
+                Sign In
+              </a>
             </p>
           </RegisterFormSignin>
         </RegisterFormContainer>

@@ -8,6 +8,9 @@ const MainDiv = styled.div`
   background: linear-gradient(to bottom, #000000, #32e0c4);
   justify-content: center;
   align-items: center;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const Mockup = styled.div`
@@ -20,6 +23,12 @@ const Mockup = styled.div`
   img {
     width: 110%;
     height: auto;
+  }
+  @media (max-width: 768px) {
+    padding-left: 0;
+    img {
+      width: 80%;
+    }
   }
 `;
 
@@ -38,6 +47,11 @@ const Container = styled.div`
   }
   span {
     color: #32e0c4;
+  }
+  @media (max-width: 768px) {
+    h2 {
+      font-size: 30px;
+    }
   }
 `;
 
