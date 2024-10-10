@@ -58,6 +58,10 @@ const columns = [
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: 10,
+  });
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -91,10 +95,13 @@ const Tasks = () => {
           <DataGrid
             rows={tasks}
             columns={columns}
-            pageSizeOptions={[5, 10]}
+            pagination
+            pageSizeOptions={[5, 10, 20]}
+            paginationModel={paginationModel}
+            onPaginationModelChange={setPaginationModel}
             checkboxSelection
             sx={{ border: 0 }}
-            getRowId={(row) => row._id} // or any unique identifier in your task data
+            getRowId={(row) => row._id} // Ensure each row has a unique identifier
           />
         </Paper>
       </Container>
