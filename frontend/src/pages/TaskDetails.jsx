@@ -46,7 +46,7 @@ const Header = styled.h3`
 const MainDiv = styled.div`
   display: flex;
   flex: 0.2;
-  height: 100vh;
+  height: 200vh;
 
   @media (max-width: 480px) {
     flex-direction: column; /* mobile */

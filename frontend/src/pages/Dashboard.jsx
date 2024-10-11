@@ -213,19 +213,31 @@ function Dashboard() {
           </div>
         </TaskCard>
         <TaskCard
-          style={{ background: "linear-gradient(to bottom, #b3b3b3, #393e46)" }}
-        >
-          <h3 style={{ color: "#222831" }}>Progress Tracker</h3>
-          <PieChart
-            series={[{
-              data: pieChartData,
-              highlightScope: { fade: 'global', highlight: 'item' },
-              faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
-              valueFormatter: (value) => `${value}`,
-            }]}
-            height={200}
-          />
-        </TaskCard>
+  style={{ background: "linear-gradient(to bottom, #b3b3b3, #393e46)" }}
+>
+  <h3 style={{ color: "#222831", margin:"20px" }}>Progress Tracker</h3>
+  <div 
+    style={{ 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      height: '300px', // Adjust the height of the container as needed
+      width: '100%', // Full width of the TaskCard
+      margin: '20px' // Optional: Add some top margin for spacing
+    }}
+  >
+    <PieChart
+      series={[{
+        data: pieChartData,
+        highlightScope: { fade: 'global', highlight: 'item' },
+        faded: { innerRadius: 50, additionalRadius: -70, color: 'gray' },
+        valueFormatter: (value) => `${value}`,
+      }]}
+      height={400} // Set a height for the PieChart
+      width={400} // Set a width for the PieChart
+    />
+  </div>
+</TaskCard>
       </TaskGrid1>
 
       <TaskGrid2>
