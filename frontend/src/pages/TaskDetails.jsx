@@ -185,15 +185,11 @@ const columns = [
   ];
   
   const rows = [
-    { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-    { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-    { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-    { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-    { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-    { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-    { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-    { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-    { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+    { id: 1, lastName: 'one', firstName: 'Task' },
+    { id: 2, lastName: 'two', firstName: 'Task' },
+    { id: 3, lastName: 'three', firstName: 'Task' },
+    { id: 4, lastName: 'four', firstName: 'Task'},
+    { id: 5, lastName: 'five', firstName: 'Task'}
   ];
 
 const Task = ({ tasks, status }) => {
