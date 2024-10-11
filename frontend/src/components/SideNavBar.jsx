@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { replace, Link as RouterLink, useNavigate } from "react-router-dom";
-import InProgress from "./InProgress";
 
 const StyledSidebar = styled.div`
   text-align: center;
@@ -17,7 +16,7 @@ const StyledSidebar = styled.div`
   width: 60%;
   background: linear-gradient(to bottom, #393e46, #000);
   transition: left 0.3s ease-in-out;
-
+  z-index: 1000;
   @media (min-width: 768px) {
     width: 100%;
     left: 0; /*visible on larger screens */
@@ -118,13 +117,6 @@ const NavButton = styled.button`
 
 function SideNavBar() {
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [tasks, setTasks] = useState([]);
-
-  const handleShowModal = () => {
-    setShowModal(!showModal);
-  };
 
   const handleListToggle = () => {
     setOpen((open) => !open);
@@ -162,27 +154,30 @@ function SideNavBar() {
         >
           <ListItem>
             <StyledImage src="../assets/dashboard.png" alt="Dashboard" />
-            Dashboard
+            <StyledLink to="/Home">Dashboard</StyledLink>
           </ListItem>
           <ListItem>
             <StyledImage src="../assets/Calendar.png" alt="Calendar" />
-            Calendar
+            <StyledLink to="/Home">Calendar</StyledLink>
           </ListItem>
         </List>
         <List style={{ borderBottom: "thin solid #393e46" }}>
           <ListItem>
             <StyledImage src="../assets/Tasks.png" alt="Tasks" />
-            Tasks <ToggleButton onClick={handleListToggle}>≡</ToggleButton>
+            <StyledLink to="/Tasks">Tasks</StyledLink>
+            <ToggleButton onClick={handleListToggle}>≡</ToggleButton>
           </ListItem>
           {open && (
             <List
               style={{ borderLeft: "thin solid #32e0c4", marginLeft: "10%" }}
             >
-              <InnerListItem onClick={handleShowModal}>
-                <ListSpan style={{ color: "#b3b3b3" }}>⦿ </ListSpan> In Progress
+              <InnerListItem>
+                <ListSpan style={{ color: "#b3b3b3" }}>⦿ </ListSpan>
+                <StyledLink to="/Inprogress">In Progress</StyledLink>
               </InnerListItem>
               <InnerListItem>
-                <ListSpan style={{ color: "#32e0c4" }}>★ </ListSpan> Completed
+                <ListSpan style={{ color: "#32e0c4" }}>★ </ListSpan>
+                <StyledLink to="/Completed">Completed</StyledLink>
               </InnerListItem>
             </List>
           )}
@@ -209,12 +204,6 @@ function SideNavBar() {
           </User>
           <p style={{ wordBreak: "break-word" }}>{email}</p>
         </div>
-
-        <InProgress
-          showModal={showModal}
-          handleClose={handleShowModal}
-          tasks={tasks}
-        />
       </StyledSidebar>
     </>
   );
