@@ -2,18 +2,17 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import AddTask from "../components/AddTask";
 import TaskCalendar from "../components/TaskCalendar";
-import { BarChart } from '@mui/x-charts/BarChart';
-import { PieChart } from '@mui/x-charts/PieChart';
+import { BarChart } from "@mui/x-charts/BarChart";
+import { PieChart } from "@mui/x-charts/PieChart";
 
 const chartSetting = {
   xAxis: [
     {
-      label: 'Tasks',
+      label: "Tasks",
     },
   ],
   width: 465,
   height: 400,
-  
 };
 
 const Header = styled.h3`
@@ -53,6 +52,8 @@ const TaskCard = styled.div`
   border-radius: 10px;
   padding: 20px;
   color: #fff;
+
+ 
 `;
 
 const GridCol = styled.div`
@@ -106,15 +107,16 @@ const TaskItem = styled.div`
     font-size: 18px;
   }
 
-  p {
-    margin: 5px 0 0 0;
-    font-size: 14px;
-  }
+  // p {
+  //   color: #fff;
+  //   margin: 5px 0 0 0;
+  //   font-size: 14px;
+  // }
 `;
 
 const TaskGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   grid-gap: 10px;
 `;
 
@@ -137,7 +139,7 @@ const Task = ({ tasks, status }) => {
       {filteredTasks.map((task, index) => (
         <TaskItem key={index}>
           <h4>{task.title}</h4>
-          <p>{task.description}</p>
+          {/* <p>{task.description}</p> */}
         </TaskItem>
       ))}
     </TaskGrid>
@@ -146,26 +148,45 @@ const Task = ({ tasks, status }) => {
 
 function Dashboard() {
   const [showModal, setShowModal] = useState(false);
-  const [tasks, setTasks] = useState([
-    { title: "Task 1", description: "Description for task 1", status: "inprogress" },
-    { title: "Task 2", description: "Description for task 2", status: "inprogress" },
-    { title: "Task 3", description: "Description for task 3", status: "completed" },
-    { title: "Task 4", description: "Description for task 4", status: "completed" },
-  ]);
-  
+  const [tasks, setTasks] = useState([]);
+  const [chartSize, setChartSize] = useState({ width: 465, height: 400 }); // Default chart siz
+
   const [chartData, setChartData] = useState([
-    { month: 'January', task: 100 },
-    { month: 'February', task: 150 },
-    { month: 'March', task: 120 },
-    { month: 'April', task: 90 },
-    { month: 'May', task: 200 },
+    { month: "January", task: 100 },
+    { month: "February", task: 150 },
+    { month: "March", task: 120 },
+    { month: "April", task: 90 },
+    { month: "May", task: 200 },
   ]); // Sample chart data
 
   const pieChartData = [
-    { category: "In Progress", value: tasks.filter(task => task.status === "inprogress").length },
-    { category: "Completed", value: tasks.filter(task => task.status === "completed").length },
+    {
+      category: "In Progress",
+      value: tasks.filter((task) => task.status === "inprogress").length,
+    },
+    {
+      category: "Completed",
+      value: tasks.filter((task) => task.status === "completed").length,
+    },
   ];
 
+  const handleResize = () => {
+    const screenWidth = window.innerWidth;
+
+    if (screenWidth <= 480) {
+      setChartSize({ width: 300, height: 250 }); // Smaller size for mobile
+    } else if (screenWidth <= 768) {
+      setChartSize({ width: 400, height: 300 }); // Medium size for tablet
+    } else {
+      setChartSize({ width: 465, height: 400 }); // Default for larger screens
+    }
+  };
+  useEffect(() => {
+    handleResize(); // Set chart size on initial load
+    window.addEventListener("resize", handleResize); // Update chart size on screen resize
+
+    return () => window.removeEventListener("resize", handleResize); // Cleanup
+  }, []);
   const handleAddTaskClick = () => {
     setShowModal(true);
   };
@@ -181,10 +202,29 @@ function Dashboard() {
     setShowModal(false);
   };
 
-  // Fetch tasks on component mount (mock data is already in state)
+  // Function to fetch in-progress tasks
+  const fetchInProgressTasks = async () => {
+    try {
+      const userId = localStorage.getItem("userId"); // Replace with the actual userId
+      const limit = 3;
+      const response = await fetch(
+        `http://localhost:8000/api/getInProgressTasks?userId=${userId}&limit=${limit}`
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setTasks(data);
+      } else {
+        console.error("Error fetching tasks: ", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
+  };
+
+  // Fetch tasks on component mount
   useEffect(() => {
-    // Normally, you would fetch data here
-    // fetchInProgressTasks();
+    fetchInProgressTasks();
   }, []);
 
   return (
@@ -193,38 +233,67 @@ function Dashboard() {
 
       <TaskGrid1>
         <TaskCard
-          style={{ background: "linear-gradient(to bottom, #32e0c4, #393e46)" }}
+          style={{
+            background: "linear-gradient(to bottom, #32e0c4, rgb(135 134 133))",
+          }}
         >
           <h3 style={{ color: "#222831" }}>Statistics</h3>
-          <div style={{ display: 'flex', justifyContent: 'right', alignItems: 'center', width: '100%', height: '100%' }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "right",
+              alignItems: "center",
+              width: "100%",
+              height: "100%",
+            }}
+          >
             <BarChart
               dataset={chartData} // Pass the chart data
               yAxis={[
                 {
-                   scaleType: 'band',
-                   dataKey: 'month',
-                   padding:{left:20, right:20}
-                  }
-                ]}
-              series={[{ dataKey: 'task', label: 'Task' }]} // Adjust dataKey to match your dataset
+                  scaleType: "band",
+                  dataKey: "month",
+                  padding: { left: 20, right: 20 },
+                },
+              ]}
+              series={[{ dataKey: "task", label: "Task", color: "#222831" }]} // Adjust dataKey to match your dataset
               layout="horizontal"
-              {...chartSetting}
+              width={chartSize.width} // Use dynamic width
+              height={chartSize.height} // Use dynamic height
             />
           </div>
         </TaskCard>
+
         <TaskCard
           style={{ background: "linear-gradient(to bottom, #b3b3b3, #393e46)" }}
         >
           <h3 style={{ color: "#222831" }}>Progress Tracker</h3>
-          <PieChart
-            series={[{
-              data: pieChartData,
-              highlightScope: { fade: 'global', highlight: 'item' },
-              faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
-              valueFormatter: (value) => `${value}`,
-            }]}
-            height={200}
-          />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <PieChart
+              series={[
+                {
+                  data: pieChartData,
+                  highlightScope: { fade: "global", highlight: "item" },
+                  faded: {
+                    innerRadius: 30,
+                    additionalRadius: -30,
+                    color: "gray",
+                  },
+                  valueFormatter: (value) => `${value}`,
+                },
+              ]}
+              width={chartSize.width} // Adjusted width for pie chart
+              height={chartSize.height / 2} // Adjusted height for pie chart
+            />
+          </div>
         </TaskCard>
       </TaskGrid1>
 
