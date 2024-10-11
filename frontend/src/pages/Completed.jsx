@@ -49,9 +49,9 @@ const TaskList = styled.div`
 
 const TaskViewer = () => {
   const tasks = [
-    { id: 1, name: "Design homepage", status: "in-progress" },
-    { id: 2, name: "Develop login page", status: "completed" },
-    { id: 3, name: "Write unit tests", status: "in-progress" },
+    { id: 1, name: "Task1", status: "in-progress" },
+    { id: 2, name: "Task2", status: "completed" },
+    { id: 3, name: "Task3", status: "in-progress" },
   ];
 
   const CompletedTasks = tasks.filter(task => task.status === "completed");
@@ -63,7 +63,7 @@ const TaskViewer = () => {
       </SideBarWrapper>
       <DashboardWrapper>
      
-      <SectionTitle>In Progress</SectionTitle>
+      <SectionTitle>Completed</SectionTitle>
       <TaskList>
         {CompletedTasks.map(task => (
           <TaskCard key={task.id} task={task} />

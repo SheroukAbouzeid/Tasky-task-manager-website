@@ -8,11 +8,12 @@ import { PieChart } from '@mui/x-charts/PieChart';
 const chartSetting = {
   xAxis: [
     {
-      label: 'Rainfall (mm)',
+      label: 'Tasks',
     },
   ],
-  width: 500,
+  width: 465,
   height: 400,
+  
 };
 
 const Header = styled.h3`
@@ -153,11 +154,11 @@ function Dashboard() {
   ]);
   
   const [chartData, setChartData] = useState([
-    { month: 'January', rainfall: 100 },
-    { month: 'February', rainfall: 150 },
-    { month: 'March', rainfall: 120 },
-    { month: 'April', rainfall: 90 },
-    { month: 'May', rainfall: 200 },
+    { month: 'January', task: 100 },
+    { month: 'February', task: 150 },
+    { month: 'March', task: 120 },
+    { month: 'April', task: 90 },
+    { month: 'May', task: 200 },
   ]); // Sample chart data
 
   const pieChartData = [
@@ -195,13 +196,21 @@ function Dashboard() {
           style={{ background: "linear-gradient(to bottom, #32e0c4, #393e46)" }}
         >
           <h3 style={{ color: "#222831" }}>Statistics</h3>
-          <BarChart
-            dataset={chartData} // Pass the chart data
-            yAxis={[{ scaleType: 'band', dataKey: 'month' }]}
-            series={[{ dataKey: 'rainfall', label: 'Rainfall (mm)' }]} // Adjust dataKey to match your dataset
-            layout="horizontal"
-            {...chartSetting}
-          />
+          <div style={{ display: 'flex', justifyContent: 'right', alignItems: 'center', width: '100%', height: '100%' }}>
+            <BarChart
+              dataset={chartData} // Pass the chart data
+              yAxis={[
+                {
+                   scaleType: 'band',
+                   dataKey: 'month',
+                   padding:{left:20, right:20}
+                  }
+                ]}
+              series={[{ dataKey: 'task', label: 'Task' }]} // Adjust dataKey to match your dataset
+              layout="horizontal"
+              {...chartSetting}
+            />
+          </div>
         </TaskCard>
         <TaskCard
           style={{ background: "linear-gradient(to bottom, #b3b3b3, #393e46)" }}

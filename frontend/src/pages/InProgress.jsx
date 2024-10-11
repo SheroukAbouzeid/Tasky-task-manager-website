@@ -49,9 +49,9 @@ const TaskList = styled.div`
 
 const TaskViewer = () => {
   const tasks = [
-    { id: 1, name: "Design homepage", date:"tomorrow",priority:"high",tag:"uni", status: "in-progress" },
-    { id: 2, name: "Develop login page", status: "completed" },
-    { id: 3, name: "Write unit tests", status: "in-progress" },
+    { id: 1, name: "Task1", status: "in-progress" },
+    { id: 2, name: "Task2", status: "completed" },
+    { id: 3, name: "Task3", status: "in-progress" },
   ];
 
   const inProgressTasks = tasks.filter(task => task.status === "in-progress");
