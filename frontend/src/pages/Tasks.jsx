@@ -76,7 +76,7 @@ const Tasks = () => {
   }, []);
 
   const handleViewTask = (task) => {
-    navigate(`/taskdetails/${task._id}`);
+    navigate(`/home/taskdetails/${task._id}`);
   };
 
   const handleDeleteTask = async (taskId) => {
