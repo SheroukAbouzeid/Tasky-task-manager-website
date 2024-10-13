@@ -2,12 +2,13 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import SideNavBar from "../components/SideNavBar";
 import Dashboard from "./Dashboard";
-import { useNavigate } from "react-router-dom"; 
-
+import { useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 const MainDiv = styled.div`
   display: flex;
-
+  height: 100vh;
+  
   @media (max-width: 480px) {
     flex-direction: column; /* mobile */
   }
@@ -25,7 +26,9 @@ const SideBarWrapper = styled.div`
   @media (max-width: 768px) {
     flex: 0;
   }
+  
 `;
+
 
 const DashboardWrapper = styled.div`
   flex: 0.8;
@@ -34,7 +37,8 @@ const DashboardWrapper = styled.div`
   color: white;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: auto;
+  overflow-y: auto; /* Allow vertical scrolling if content overflows */
 
   @media (max-width: 768px) {
     flex: 1; /* Full width small screens */
@@ -42,49 +46,7 @@ const DashboardWrapper = styled.div`
   }
 `;
 
-const HomeHeader = styled.h1`
-  font-size: 3em;
-  font-weight: bold;
-  margin-bottom: 30px;
-  @media (max-width: 768px) {
-    font-size: 2em;
-  }
-`;
-
-const Word = styled.span`
-  color: ${(props) => props.color || "white"}; /* Default color is white */
-`;
-
-const TaskGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
-`;
-
-const TaskCard = styled.div`
-  background: linear-gradient(to top right, #32e0c4, #393e46);
-  padding: 20px;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-`;
-
 const Home = () => {
-  const navigate = useNavigate();
-  const firstName = localStorage.getItem("firstName");
-
-  useEffect(() => {
-    const email = localStorage.getItem("email");
-    // If the user is not logged in, redirect to the login page
-    if (!email) {
-      navigate("/login", { replace: true });
-    }
-  }, [navigate]);
-
   return (
     <MainDiv>
       {/* Sidebar Section */}
@@ -94,13 +56,7 @@ const Home = () => {
 
       {/* Dashboard Section */}
       <DashboardWrapper>
-        <HomeHeader>
-          Hello
-          <Word color="#b3b3b3"> {firstName}, </Word>
-          Let’s Get Tasks
-          <Word color="#32e0c4"> DONE!</Word>
-        </HomeHeader>
-        <Dashboard />
+        <Outlet />
       </DashboardWrapper>
     </MainDiv>
   );

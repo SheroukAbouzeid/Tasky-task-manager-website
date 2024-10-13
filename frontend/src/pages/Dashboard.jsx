@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import AddTask from "../components/AddTask";
 import TaskCalendar from "../components/TaskCalendar";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { PieChart } from "@mui/x-charts/PieChart";
 
-const chartSetting = {
-  xAxis: [
-    {
-      label: "Tasks",
-    },
-  ],
-  width: 465,
-  height: 400,
-};
+
 
 const Header = styled.h3`
   margin: 10px;
@@ -22,14 +15,25 @@ const Header = styled.h3`
     font-size: 20px;
   }
 `;
+const HomeHeader = styled.h1`
+  font-size: 3em;
+  font-weight: bold;
+  margin-bottom: 30px;
+  @media (max-width: 768px) {
+    font-size: 2em;
+  }
+`;
 
+const Word = styled.span`
+  color: ${(props) => props.color || "white"}; /* Default color is white */
+`;
 const TaskGrid1 = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 5%;
   margin-bottom: 5%;
 
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     grid-template-columns: 1fr; /* 1 column on mobile */
   }
 `;
@@ -39,6 +43,10 @@ const TaskGrid2 = styled.div`
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 5%;
   margin-bottom: 5%;
+
+  @media (max-width: 980px) {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets */
+  }
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr; /* 1 column on all small screens */
@@ -148,6 +156,16 @@ function Dashboard() {
   const [showModal, setShowModal] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [chartSize, setChartSize] = useState({ width: 465, height: 400 }); // Default chart siz
+  const navigate = useNavigate();
+  const firstName = localStorage.getItem("firstName");
+
+  useEffect(() => {
+    const email = localStorage.getItem("email");
+    // If the user is not logged in, redirect to the login page
+    if (!email) {
+      navigate("/login", { replace: true });
+    }
+  }, [navigate]);
 
   const [chartData, setChartData] = useState([
     { month: "January", task: 100 },
@@ -227,6 +245,12 @@ function Dashboard() {
 
   return (
     <>
+      <HomeHeader>
+        Hello
+        <Word color="#b3b3b3"> {firstName}, </Word>
+        Let’s Get Tasks
+        <Word color="#32e0c4"> DONE!</Word>
+      </HomeHeader>
       <Header>My Tasks</Header>
 
       <TaskGrid1>

@@ -2,46 +2,17 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
-import SideNavBar from "../components/SideNavBar";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 
-const MainDiv = styled.div`
-  display: flex;
-  width: 100%; /* Full width of the viewport */
-  height: 100vh;
-  overflow-x: hidden; /* Prevent horizontal scrolling */
-
-  @media (max-width: 480px) {
-    flex-direction: column;
-  }
-`;
-
 const Container = styled.div`
-  flex: 0.8; /* Takes 80% of the page width */
   display: flex;
   flex-direction: column;
   padding: 20px;
   background: #222831;
-  overflow-x: hidden; /* Prevent horizontal overflow */
   box-sizing: border-box; /* Ensure padding doesn't affect width */
-`;
-
-const SideBarWrapper = styled.div`
-  flex: 0.2; /* Sidebar takes 20% of the page width */
-  display: flex;
-  justify-content: center;
-  background: linear-gradient(to bottom, #393e46, #000);
-  border-right: thin solid transparent;
-  border-image: linear-gradient(to bottom, #b3b3b3, #393e46);
-  border-image-slice: 1;
-  box-sizing: border-box;
-
-  @media (max-width: 768px) {
-    flex: 1; /* On smaller screens, sidebar takes full width */
-  }
 `;
 
 const StyledTextField = styled(TextField)`
@@ -105,7 +76,7 @@ const Tasks = () => {
   }, []);
 
   const handleViewTask = (task) => {
-    navigate(`/taskdetails/${task._id}`);
+    navigate(`/home/taskdetails/${task._id}`);
   };
 
   const handleDeleteTask = async (taskId) => {
@@ -215,49 +186,43 @@ const Tasks = () => {
   ];
 
   return (
-    <MainDiv>
-      <SideBarWrapper>
-        <SideNavBar />
-      </SideBarWrapper>
-
-      <Container>
-        <StyledTextField
-          label="Search Tasks"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          onChange={handleSearchChange}
+    <Container>
+      <StyledTextField
+        label="Search Tasks"
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        onChange={handleSearchChange}
+      />
+      <StyledPaper sx={{ height: 700, width: "100%" }}>
+        <DataGrid
+          rows={filteredTasks}
+          columns={columns}
+          pagination
+          pageSizeOptions={[5, 10, 20]}
+          paginationModel={paginationModel}
+          onPaginationModelChange={setPaginationModel}
+          sx={{
+            background: "linear-gradient(to bottom, #393e46, #222831)", // Applying gradient
+            "& .MuiDataGrid-cell": {
+              color: "#fff",
+            },
+            "& .MuiDataGrid-columnHeaders": {
+              backgroundColor: "#393e46",
+              color: "#b3b3b3",
+            },
+            "& .MuiDataGrid-footerContainer": {
+              backgroundColor: "#393e46",
+              color: "#fff",
+            },
+            "& .MuiDataGrid-virtualScroller": {
+              background: "linear-gradient(to bottom, #393e46, #222831)", // Applying gradient to scroller background
+            },
+          }}
+          getRowId={(row) => row._id}
         />
-        <StyledPaper sx={{ height: 700, width: "100%" }}>
-          <DataGrid
-            rows={filteredTasks}
-            columns={columns}
-            pagination
-            pageSizeOptions={[5, 10, 20]}
-            paginationModel={paginationModel}
-            onPaginationModelChange={setPaginationModel}
-            sx={{
-              background: "linear-gradient(to bottom, #393e46, #222831)", // Applying gradient
-              "& .MuiDataGrid-cell": {
-                color: "#fff",
-              },
-              "& .MuiDataGrid-columnHeaders": {
-                backgroundColor: "#393e46",
-                color: "#b3b3b3",
-              },
-              "& .MuiDataGrid-footerContainer": {
-                backgroundColor: "#393e46",
-                color: "#fff",
-              },
-              "& .MuiDataGrid-virtualScroller": {
-                background: "linear-gradient(to bottom, #393e46, #222831)", // Applying gradient to scroller background
-              },
-            }}
-            getRowId={(row) => row._id}
-          />
-        </StyledPaper>
-      </Container>
-    </MainDiv>
+      </StyledPaper>
+    </Container>
   );
 };
 

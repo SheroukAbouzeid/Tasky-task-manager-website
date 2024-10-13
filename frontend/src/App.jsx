@@ -1,17 +1,17 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import LandingPage from './pages/LandingPage';
-import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
-import LogIn from './pages/LogIn';
-import Register from './pages/Register';
-import Home from './pages/Home';
-import InProgress from './pages/InProgress';
-import Completed from './pages/Completed';
-import Tasks from './pages/Tasks';
-import TaskDetails from './pages/TaskDetails';
-
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
+import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
+import LogIn from "./pages/LogIn";
+import Register from "./pages/Register";
+import Home from "./pages/Home";
+import InProgress from "./pages/InProgress";
+import Completed from "./pages/Completed";
+import Tasks from "./pages/Tasks";
+import TaskDetails from "./pages/TaskDetails";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -25,11 +25,14 @@ function App() {
             <Route path="login" element={<LogIn />} />
             <Route path="register" element={<Register />} />
           </Route>
-          <Route path="/home" element={<Home />} />
-          <Route path="inProgress" element={<InProgress />} />
-          <Route path="completed" element={<Completed />} />
-          <Route path="tasks" element={<Tasks />} />
-          <Route path="taskdetails/:id" element={<TaskDetails />} />
+
+          <Route path="/home" element={<Home />}>
+            <Route index element={<Dashboard />} />
+            <Route path="inProgress" element={<InProgress />} />
+            <Route path="completed" element={<Completed />} />
+            <Route path="tasks" element={<Tasks />} />
+            <Route path="taskdetails/:id" element={<TaskDetails />} />
+          </Route>
         </Routes>
       </div>
     </Router>
