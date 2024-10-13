@@ -12,15 +12,18 @@ const StyledSidebar = styled.div`
   position: fixed;
   top: 0;
   left: ${(props) => (props.$isNavOpen ? "0" : "-100%")};
-  height: 100%;
+  height: 100vh;
   width: 60%;
   background: linear-gradient(to bottom, #393e46, #000);
   transition: left 0.3s ease-in-out;
-  z-index: 1000;
+  z-index: 10;
+  overflow-y: auto; /* Enables scrolling */
   @media (min-width: 768px) {
     width: 100%;
     left: 0; /*visible on larger screens */
     position: relative;
+    height: auto; /* Reset height for larger screens */
+    overflow: visible; /* No scroll needed on larger screens */
   }
 `;
 
@@ -164,7 +167,7 @@ function SideNavBar() {
         <List style={{ borderBottom: "thin solid #393e46" }}>
           <ListItem>
             <StyledImage src="../assets/Tasks.png" alt="Tasks" />
-            <StyledLink to="/Tasks">Tasks</StyledLink>
+            <StyledLink to="/home/Tasks">Tasks</StyledLink>
             <ToggleButton onClick={handleListToggle}>≡</ToggleButton>
           </ListItem>
           {open && (
@@ -173,11 +176,11 @@ function SideNavBar() {
             >
               <InnerListItem>
                 <ListSpan style={{ color: "#b3b3b3" }}>⦿ </ListSpan>
-                <StyledLink to="/Inprogress">In Progress</StyledLink>
+                <StyledLink to="/home/Inprogress">In Progress</StyledLink>
               </InnerListItem>
               <InnerListItem>
                 <ListSpan style={{ color: "#32e0c4" }}>★ </ListSpan>
-                <StyledLink to="/Completed">Completed</StyledLink>
+                <StyledLink to="/home/Completed">Completed</StyledLink>
               </InnerListItem>
             </List>
           )}

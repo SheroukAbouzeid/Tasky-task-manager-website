@@ -5,34 +5,6 @@ import SideNavBar from "../components/SideNavBar";
 import TaskCard from "../components/TaskCard";
 
 // Styled Components for InProgress
-const MainDiv = styled.div`
-  display: flex;
-  height: 100vh;
-`;
-
-const SideBarWrapper = styled.div`
-  flex: 0.2;
-  display: flex;
-  justify-content: center;
-  background: linear-gradient(to bottom, #393e46, #000);
-  border-right: thin solid transparent;
-  border-image: linear-gradient(to bottom, #b3b3b3, #393e46);
-  border-image-slice: 1;
-`;
-
-const DashboardWrapper = styled.div`
-  flex: 0.8;
-  background: #222831;
-  padding: 2% 3%;
-  color: white;
-  display: flex;
-  flex-direction: column;
-`;
-
-const TaskContainer = styled.div`
-  margin-top: 20px;
-  
-`;
 
 const SectionTitle = styled.h3`
   font-size: 1.4em;
@@ -46,7 +18,6 @@ const TaskList = styled.div`
   flex-wrap: wrap;
 `;
 
-
 const TaskViewer = () => {
   const tasks = [
     { id: 1, name: "Task1", status: "in-progress" },
@@ -54,28 +25,18 @@ const TaskViewer = () => {
     { id: 3, name: "Task3", status: "in-progress" },
   ];
 
-  const inProgressTasks = tasks.filter(task => task.status === "in-progress");
+  const inProgressTasks = tasks.filter((task) => task.status === "in-progress");
 
   return (
-    <MainDiv>
-       <SideBarWrapper>
-        <SideNavBar />
-      </SideBarWrapper>
-      <DashboardWrapper>
-     
+    <>
       <SectionTitle>In Progress</SectionTitle>
       <TaskList>
-        {inProgressTasks.map(task => (
+        {inProgressTasks.map((task) => (
           <TaskCard key={task.id} task={task} />
         ))}
       </TaskList>
-    
-      </DashboardWrapper>
-      
-    </MainDiv>
-    
+    </>
   );
 };
 
 export default TaskViewer;
-
