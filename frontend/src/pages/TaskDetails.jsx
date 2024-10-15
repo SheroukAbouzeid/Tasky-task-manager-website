@@ -13,8 +13,7 @@ function GaugePointer() {
   const { valueAngle, outerRadius, cx, cy } = useGaugeState();
 
   if (valueAngle === null) {
-    // No value to display
-    return null;
+    return null; // No value to display
   }
 
   const target = {
@@ -46,7 +45,6 @@ const TaskGrid1 = styled.div`
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 5%;
   margin-bottom: 5%;
-
   @media (max-width: 480px) {
     grid-template-columns: 1fr; /* 1 column on mobile */
   }
@@ -59,7 +57,6 @@ const TaskCard = styled.div`
   border-radius: 10px;
   padding: 20px;
   color: #fff;
-
   @media (max-width: 480px) {
     font-size: 16px; /* Adjust font size on mobile */
     padding: 10px;
@@ -67,40 +64,33 @@ const TaskCard = styled.div`
 `;
 
 const columns = [
-  { field: "id", headerName: "ID", width: 70 },
-  {
-    field: "steps",
-    headerName: "Steps",
-    description: "This column has a value getter and is not sortable.",
-    sortable: false,
-    width: 160,
-    valueGetter: (value, row) => `${row.firstName || ""} ${row.lastName || ""}`,
-  },
-];
-
-const rows = [
-  { id: 1, lastName: "one", firstName: "Task" },
-  { id: 2, lastName: "two", firstName: "Task" },
-  { id: 3, lastName: "three", firstName: "Task" },
-  { id: 4, lastName: "four", firstName: "Task" },
-  { id: 5, lastName: "five", firstName: "Task" },
+  { field: "steps", headerName: "Steps", width: 300 },
 ];
 
 function TaskDetails() {
-  const [showModal, setShowModal] = useState(false);
   const [tasks, setTasks] = useState([]);
+  const [selectedTask, setSelectedTask] = useState(null); // State to track the selected task
+  const [gaugeValue, setGaugeValue] = useState(30); // Example dynamic gauge value
 
-  // Function to fetch in-progress tasks
   const fetchInProgressTasks = async () => {
     try {
-      const userId = localStorage.getItem("userId"); // Replace with the actual userId
+      const userId = localStorage.getItem("userId");
       const limit = 4;
       const response = await fetch(
         `http://localhost:8000/api/getInProgressTasks?userId=${userId}&limit=${limit}`
       );
       if (response.ok) {
         const data = await response.json();
-        setTasks(data);
+        console.log("Fetched Tasks: ", data); // Debugging log
+        const formattedTasks = data.map((task, index) => ({
+          id: index + 1,
+          title: task.title,
+          steps: task.steps ? task.steps.join(", ") : "No steps",
+        }));
+        setTasks(formattedTasks);
+        if (formattedTasks.length > 0) {
+          setSelectedTask(formattedTasks[0]); // Set the first task as default selected
+        }
       } else {
         console.error("Error fetching tasks: ", response.statusText);
       }
@@ -109,40 +99,39 @@ function TaskDetails() {
     }
   };
 
-  // Fetch tasks on component mount
   useEffect(() => {
     fetchInProgressTasks();
   }, []);
 
   return (
     <>
-      <Header>My Task</Header>
-
+      <Header>Task details</Header>
       <TaskGrid1>
-        <TaskCard
-          style={{ background: "linear-gradient(to bottom, #32e0c4, #393e46)" }}
-        >
-          <h3 style={{ color: "#222831" }}>Statistics</h3>
+        <TaskCard style={{ background: "linear-gradient(to bottom, #32e0c4, #393e46)" }}>
+          <h3 style={{ color: "#222831" }}>
+            {selectedTask ? selectedTask.title : "Select a Task"}
+          </h3>
           <Paper sx={{ height: 400, width: "100%" }}>
             <DataGrid
-              rows={rows}
+              rows={tasks}
               columns={columns}
               pageSizeOptions={[5, 10]}
               checkboxSelection
+              onRowClick={(params) => {
+                setSelectedTask(params.row); // Update selected task on row click
+              }}
               sx={{ border: 0 }}
             />
           </Paper>
         </TaskCard>
-        <TaskCard
-          style={{ background: "linear-gradient(to bottom, #b3b3b3, #393e46)" }}
-        >
+        <TaskCard style={{ background: "linear-gradient(to bottom, #b3b3b3, #393e46)" }}>
           <h3 style={{ color: "#222831" }}>Progress Tracker</h3>
           <GaugeContainer
             width={200}
             height={200}
             startAngle={-110}
             endAngle={110}
-            value={30}
+            value={gaugeValue} // Set this value based on your application logic
           >
             <GaugeReferenceArc />
             <GaugeValueArc />
