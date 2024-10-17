@@ -6,8 +6,6 @@ import TaskCalendar from "../components/TaskCalendar";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { PieChart } from "@mui/x-charts/PieChart";
 
-
-
 const Header = styled.h3`
   margin: 10px;
   font-size: 32px;
@@ -129,7 +127,7 @@ const TaskGrid = styled.div`
 const Task = ({ tasks, status }) => {
   const filteredTasks = tasks
     .filter((task) => task.status === status)
-    .slice(0, 3);
+    .slice(0, 5);
 
   // Check if there are any tasks to display
   if (filteredTasks.length === 0) {
@@ -218,18 +216,17 @@ function Dashboard() {
     setShowModal(false);
   };
 
-  // Function to fetch in-progress tasks
-  const fetchInProgressTasks = async () => {
+  // Function to fetch tasks
+  const fetchTasks = async () => {
     try {
-      const userId = localStorage.getItem("userId"); // Replace with the actual userId
-      const limit = 3;
+      const userId = localStorage.getItem("userId"); // Retrieve user ID from local storage
       const response = await fetch(
-        `http://localhost:8000/api/getInProgressTasks?userId=${userId}&limit=${limit}`
+        `http://localhost:8000/api/getTasks/${userId}`
       );
 
       if (response.ok) {
         const data = await response.json();
-        setTasks(data);
+        setTasks(data); // Update tasks state with fetched data
       } else {
         console.error("Error fetching tasks: ", response.statusText);
       }
@@ -240,7 +237,7 @@ function Dashboard() {
 
   // Fetch tasks on component mount
   useEffect(() => {
-    fetchInProgressTasks();
+    fetchTasks();
   }, []);
 
   return (
