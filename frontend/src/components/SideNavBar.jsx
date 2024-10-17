@@ -120,6 +120,7 @@ const NavButton = styled.button`
 
 function SideNavBar() {
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleListToggle = () => {
     setOpen((open) => !open);

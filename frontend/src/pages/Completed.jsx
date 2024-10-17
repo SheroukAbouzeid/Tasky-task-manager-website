@@ -1,7 +1,7 @@
 //Completed.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import SideNavBar from "../components/SideNavBar";
+
 import TaskCard from "../components/TaskCard";
 
 // Styled Components for Completed
@@ -19,20 +19,38 @@ const TaskList = styled.div`
 `;
 
 const TaskViewer = () => {
-  const tasks = [
-    { id: 1, name: "Task1", status: "in-progress" },
-    { id: 2, name: "Task2", status: "completed" },
-    { id: 3, name: "Task3", status: "in-progress" },
-  ];
+  const [completedTasks, setCompletedTasks] = useState([]);
+  
+  const fetchCompletedTasks = async () => {
+    try {
+      const userId = localStorage.getItem("userId"); // Retrieve user ID from local storage
+      const response = await fetch(
+        `http://localhost:8000/api/getCompletedTasks?userId=${userId}`
+      );
 
-  const CompletedTasks = tasks.filter((task) => task.status === "completed");
+      if (response.ok) {
+        const data = await response.json();
+        setCompletedTasks(data); // Update tasks state with fetched data
+      } else {
+        console.error("Error fetching tasks: ", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCompletedTasks(); // Fetch tasks on component mount
+  }, []); // Empty dependency array ensures it runs only once when the component mounts
 
   return (
     <>
       <SectionTitle>Completed</SectionTitle>
       <TaskList>
-        {CompletedTasks.map((task) => (
-          <TaskCard key={task.id} task={task} />
+        {completedTasks.map((task, i) => (
+         
+          <TaskCard key={i} task={task}/>
+
         ))}
       </TaskList>
     </>

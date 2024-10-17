@@ -67,13 +67,12 @@ const response = await fetch(
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-
       const data = await response.json();
-      console.log("Fetched tasks:", data); // Log the fetched tasks
+      //console.log("Fetched tasks:", data); // Log the fetched tasks
       if (data.length === 0) {
         console.log("No tasks found."); // Log if no tasks are fetched
       }
-      data.forEach(task => console.log("Due Date:", task.dueDate)); // Log each due date
+      //data.forEach(task => console.log("Due Date:", task.dueDate)); // Log each due date
       setTasks(data);
     } catch (error) {
       console.error("Error fetching tasks:", error);
@@ -91,8 +90,8 @@ const response = await fetch(
       const taskDates = getTaskDates();
 
       // Log the current date for debugging
-      console.log("Current Date:", date);
-      console.log("Task Dates for Highlighting:", taskDates);
+      // console.log("Current Date:", date);
+      // console.log("Task Dates for Highlighting:", taskDates);
 
       // Check if the current date matches any task date
       return taskDates.some(taskDate =>
