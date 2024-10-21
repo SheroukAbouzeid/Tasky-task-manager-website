@@ -154,6 +154,8 @@ function Dashboard() {
   const [showModal, setShowModal] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [chartSize, setChartSize] = useState({ width: 465, height: 400 }); // Default chart siz
+  const [chartData, setChartData] = useState([]);
+
   const navigate = useNavigate();
   const firstName = localStorage.getItem("firstName");
 
@@ -165,13 +167,30 @@ function Dashboard() {
     }
   }, [navigate]);
 
-  const [chartData, setChartData] = useState([
-    { month: "January", task: 100 },
-    { month: "February", task: 150 },
-    { month: "March", task: 120 },
-    { month: "April", task: 90 },
-    { month: "May", task: 200 },
-  ]); // Sample chart data
+  useEffect(() => {
+    const updatedChartData = [
+      { month: "January", task: 0 },
+      { month: "February", task: 0 },
+      { month: "March", task: 0 },
+      { month: "April", task: 0 },
+      { month: "May", task: 0 },
+      { month: "June", task: 0 },
+      { month: "July", task: 0 },
+      { month: "August", task: 0 },
+      { month: "September", task: 0 },
+      { month: "October", task: 0 },
+      { month: "November", task: 0 },
+      { month: "December", task: 0 },
+    ];
+
+    tasks.forEach((task) => {
+      const taskDate = new Date(task.dueDate);
+      const monthIndex = taskDate.getMonth(); // January is 0, February is 1, etc.
+      updatedChartData[monthIndex].task += 1;
+    });
+
+    setChartData(updatedChartData); // Update the state with the new data
+  }, [tasks]);
 
   const pieChartData = [
     {
@@ -306,7 +325,11 @@ function Dashboard() {
                     additionalRadius: -30,
                     color: "gray",
                   },
-                  valueFormatter: (value) => `${value.category} ${(value.data / tasks.length * 100).toFixed(2)}%`,
+                  valueFormatter: (value) =>
+                    `${value.category} ${(
+                      (value.data / tasks.length) *
+                      100
+                    ).toFixed(2)}%`,
                 },
               ]}
               width={chartSize.width} // Adjusted width for pie chart
