@@ -80,17 +80,24 @@ const Tasks = () => {
   };
 
   const handleDeleteTask = async (taskId) => {
-    try {
-      const response = await fetch(
-        `http://localhost:8000/api/deleteTask/${taskId}`,
-        {
-          method: "DELETE",
-        }
-      );
-      if (!response.ok) throw new Error("Failed to delete task");
-      setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
-    } catch (error) {
-      console.error("Error deleting task:", error);
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this task?"
+    );
+    if (confirmDelete) {
+      try {
+        const response = await fetch(
+          `http://localhost:8000/api/deleteTask/${taskId}`,
+          {
+            method: "DELETE",
+          }
+        );
+        if (!response.ok) throw new Error("Failed to delete task");
+        setTasks((prevTasks) =>
+          prevTasks.filter((task) => task._id !== taskId)
+        );
+      } catch (error) {
+        console.error("Error deleting task:", error);
+      }
     }
   };
 
