@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { loginUser, registerUser } from "../controllers/userController.js";
-import { addTask , getCompletedTasks, getUserTasks ,getInProgressTasks, deleteTask, updateTask } from "../controllers/taskController.js";
+import { addTask , getCompletedTasks, getUserTasks ,getInProgressTasks, deleteTask, updateTask, getTask } from "../controllers/taskController.js";
 
 const router = Router();
 
@@ -20,7 +20,8 @@ router.post('/addTask', addTask);
 //update task
 router.put('/updateTask/:taskId', updateTask)
 
-
+//getTask
+router.get('/getTask/:taskId', getTask);
 
 // get tasks by userID (from route parameter)
 router.get('/getTasks/:userId', getUserTasks);

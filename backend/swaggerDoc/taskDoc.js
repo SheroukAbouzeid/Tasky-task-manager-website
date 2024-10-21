@@ -270,3 +270,71 @@
  *       500:
  *         description: Server error
  */
+/**
+ * @swagger
+ * /api/getTask/{taskId}:
+ *   get:
+ *     summary: Retrieve a specific task by ID
+ *     tags: [Task]
+ *     parameters:
+ *       - in: path
+ *         name: taskId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the task to retrieve
+ *     responses:
+ *       200:
+ *         description: Task retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                   description: The ID of the task
+ *                   example: "64a85c5f9cb4d25b348cb896"
+ *                 title:
+ *                   type: string
+ *                   description: The title of the task
+ *                   example: "Write project report"
+ *                 description:
+ *                   type: string
+ *                   description: The description of the task
+ *                   example: "Complete the project report for the client"
+ *                 dueDate:
+ *                   type: string
+ *                   description: Due date of the task
+ *                   example: "2024-10-21"
+ *                 priority:
+ *                   type: string
+ *                   description: Priority level of the task
+ *                   example: "high"
+ *                 tag:
+ *                   type: string
+ *                   description: Tag for the task category
+ *                   example: "work"
+ *                 status:
+ *                   type: string
+ *                   description: Current status of the task
+ *                   example: "inprogress"
+ *                 steps:
+ *                   type: array
+ *                   description: List of steps for the task
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       stepName:
+ *                         type: string
+ *                         description: Name of the step
+ *                         example: "Initial Draft"
+ *                       isComplete:
+ *                         type: boolean
+ *                         description: Completion status of the step
+ *                         example: false
+ *       404:
+ *         description: Task not found
+ *       500:
+ *         description: Server error
+ */

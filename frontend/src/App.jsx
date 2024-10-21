@@ -31,7 +31,7 @@ function App() {
             <Route path="inProgress" element={<InProgress />} />
             <Route path="completed" element={<Completed />} />
             <Route path="tasks" element={<Tasks />} />
-            <Route path="taskdetails/:id" element={<TaskDetails />} />
+            <Route path="taskdetails/:taskId" element={<TaskDetails />} />
           </Route>
           <Route path="/tasks/:taskId" element={<TaskDetails />} />
         </Routes>

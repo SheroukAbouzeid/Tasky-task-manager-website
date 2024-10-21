@@ -68,23 +68,18 @@ const TaskCard = styled.div`
 `;
 
 function TaskDetails() {
-  const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
-  const [gaugeValue, setGaugeValue] = useState(30); // Example dynamic gauge value
+  const [gaugeValue, setGaugeValue] = useState(30);
 
-  const fetchInProgressTasks = async () => {
+  const taskDetail = async () => {
+    const taskId = window.location.pathname.split("/")[3];
     try {
-      const userId = localStorage.getItem("userId");
-      const limit = 4;
       const response = await fetch(
-        `http://localhost:8000/api/getInProgressTasks?userId=${userId}&limit=${limit}`
+        `http://localhost:8000/api/getTask/${taskId}`
       );
       if (response.ok) {
         const data = await response.json();
-        setTasks(data);
-        if (data.length > 0) {
-          setSelectedTask(data[0]);
-        }
+        setSelectedTask(data);
       } else {
         console.error("Error fetching tasks: ", response.statusText);
       }
@@ -94,7 +89,7 @@ function TaskDetails() {
   };
 
   useEffect(() => {
-    fetchInProgressTasks();
+    taskDetail();
   }, []);
 
   const handleInputChange = (e) => {
@@ -102,16 +97,33 @@ function TaskDetails() {
     setSelectedTask((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleStepChange = (index, field, value) => {
+  const handleStepChange = async (index, field, value) => {
     const updatedSteps = [...selectedTask.steps];
-    updatedSteps[index][field] = value;
+    updatedSteps[index][field] = value; // Update the specified field
+
+    // Update the selected task with the modified steps
     setSelectedTask((prev) => ({ ...prev, steps: updatedSteps }));
+
+    // Send the updated task to the API
+    try {
+      const response = await fetch(
+        `http://localhost:8000/api/updateTask/${selectedTask._id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...selectedTask, steps: updatedSteps }), // Send updated steps
+        }
+      );
+      if (!response.ok) throw new Error("Failed to update task");
+    } catch (error) {
+      console.error("Error updating task:", error);
+    }
   };
 
   const handleAddStep = () => {
     setSelectedTask((prev) => ({
       ...prev,
-      steps: [...prev.steps, { name: "", completed: false }],
+      steps: [...prev.steps, { stepName: "", isComplete: false }], // Update to match DB format
     }));
   };
 
@@ -134,7 +146,7 @@ function TaskDetails() {
       );
       if (!response.ok) throw new Error("Failed to update task");
       alert("Task updated successfully!");
-      fetchInProgressTasks(); // Refresh tasks after updating
+      taskDetail(); // Refresh tasks after updating
     } catch (error) {
       console.error("Error updating task:", error);
     }
@@ -144,9 +156,12 @@ function TaskDetails() {
     <>
       <Header>Task Details</Header>
       <TaskGrid>
-       
         {selectedTask && (
-          <TaskCard style={{ background: "linear-gradient(to bottom, #00adb5, #393e46)" }}>
+          <TaskCard
+            style={{
+              background: "linear-gradient(to bottom, #00adb5, #393e46)",
+            }}
+          >
             <h3 style={{ color: "#222831" }}>Edit Task</h3>
             <form onSubmit={handleFormSubmit}>
               <TextField
@@ -222,21 +237,36 @@ function TaskDetails() {
 
               <h3 style={{ color: "#222831" }}>Steps</h3>
               {selectedTask.steps.map((step, index) => (
-                <div key={index} style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+                <div
+                  key={index}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: "10px",
+                  }}
+                >
                   <TextField
                     label={`Step ${index + 1}`}
-                    value={step.name}
-                    onChange={(e) => handleStepChange(index, "name", e.target.value)}
+                    value={step.stepName}
+                    onChange={(e) =>
+                      handleStepChange(index, "stepName", e.target.value)
+                    }
                     fullWidth
                     margin="normal"
                   />
                   <Checkbox
-                    checked={step.completed}
-                    onChange={(e) => handleStepChange(index, "completed", e.target.checked)}
+                    checked={step.isComplete} // Update to match DB format
+                    onChange={
+                      (e) =>
+                        handleStepChange(index, "isComplete", e.target.checked) // This updates the isComplete status
+                    }
                     color="primary"
                     style={{ marginLeft: "10px" }}
                   />
-                  <IconButton onClick={() => handleRemoveStep(index)} color="secondary">
+                  <IconButton
+                    onClick={() => handleRemoveStep(index)}
+                    color="secondary"
+                  >
                     <DeleteIcon />
                   </IconButton>
                 </div>
@@ -263,33 +293,32 @@ function TaskDetails() {
           </TaskCard>
         )}
         <TaskCard
-  style={{
-    background: "linear-gradient(to bottom, #b3b3b3, #393e46)",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  }}
->
-  <h3 style={{ color: "#222831" }}>Progress Tracker</h3>
-  <GaugeContainer
-    width={500}
-    height={500}
-    startAngle={-110}
-    endAngle={110}
-    value={gaugeValue}
-    style={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-    }}
-  >
-    <GaugeReferenceArc />
-    <GaugeValueArc />
-    <GaugePointer />
-  </GaugeContainer>
-</TaskCard>
-
+          style={{
+            background: "linear-gradient(to bottom, #b3b3b3, #393e46)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <h3 style={{ color: "#222831" }}>Progress Tracker</h3>
+          <GaugeContainer
+            width={500}
+            height={500}
+            startAngle={-110}
+            endAngle={110}
+            value={gaugeValue}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <GaugeReferenceArc />
+            <GaugeValueArc />
+            <GaugePointer />
+          </GaugeContainer>
+        </TaskCard>
       </TaskGrid>
     </>
   );
