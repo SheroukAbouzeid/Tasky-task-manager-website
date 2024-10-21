@@ -67,6 +67,14 @@ const TaskCard = styled.div`
   }
 `;
 
+const PercentageText = styled.div`
+  font-size: 48px; /* Adjust size as needed */
+  font-weight: bold;
+  color: #00adb5;
+  text-align: center;
+  margin-bottom: 10px; /* Space between text and gauge */
+`;
+
 function TaskDetails() {
   const [selectedTask, setSelectedTask] = useState(null);
   const [gaugeValue, setGaugeValue] = useState(30);
@@ -80,6 +88,7 @@ function TaskDetails() {
       if (response.ok) {
         const data = await response.json();
         setSelectedTask(data);
+        updateGaugeValue(data.steps); // Update gauge when task is fetched
       } else {
         console.error("Error fetching tasks: ", response.statusText);
       }
@@ -103,6 +112,9 @@ function TaskDetails() {
 
     // Update the selected task with the modified steps
     setSelectedTask((prev) => ({ ...prev, steps: updatedSteps }));
+
+    // Update gauge value based on the updated steps
+    updateGaugeValue(updatedSteps);
 
     // Send the updated task to the API
     try {
@@ -131,6 +143,7 @@ function TaskDetails() {
     const updatedSteps = [...selectedTask.steps];
     updatedSteps.splice(index, 1);
     setSelectedTask((prev) => ({ ...prev, steps: updatedSteps }));
+    updateGaugeValue(updatedSteps); // Update gauge after removing a step
   };
 
   const handleFormSubmit = async (e) => {
@@ -150,6 +163,15 @@ function TaskDetails() {
     } catch (error) {
       console.error("Error updating task:", error);
     }
+  };
+
+  // Function to update the gauge value based on the number of completed steps
+  const updateGaugeValue = (steps) => {
+    const completedSteps = steps.filter((step) => step.isComplete).length;
+    const totalSteps = steps.length;
+    const completionPercentage =
+      totalSteps > 0 ? (completedSteps / totalSteps) * 100 : 0;
+    setGaugeValue(completionPercentage);
   };
 
   return (
@@ -302,6 +324,8 @@ function TaskDetails() {
           }}
         >
           <h3 style={{ color: "#222831" }}>Progress Tracker</h3>
+          <PercentageText>{Math.round(gaugeValue)}%</PercentageText>
+
           <GaugeContainer
             width={500}
             height={500}
