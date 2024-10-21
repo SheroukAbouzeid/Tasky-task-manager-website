@@ -306,7 +306,7 @@ function Dashboard() {
                     additionalRadius: -30,
                     color: "gray",
                   },
-                  valueFormatter: (value) => `${value}`,
+                  valueFormatter: (value) => `${value.category} ${(value.data / tasks.length * 100).toFixed(2)}%`,
                 },
               ]}
               width={chartSize.width} // Adjusted width for pie chart
