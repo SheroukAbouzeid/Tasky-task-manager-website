@@ -33,6 +33,7 @@ function App() {
             <Route path="tasks" element={<Tasks />} />
             <Route path="taskdetails/:id" element={<TaskDetails />} />
           </Route>
+          <Route path="/tasks/:taskId" element={<TaskDetails />} />
         </Routes>
       </div>
     </Router>
