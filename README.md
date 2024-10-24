@@ -1,4 +1,5 @@
 ﻿# Tasky-Task Management System Using React 
+Task Manager Website using MERN stack.
 
  run backend server : cd backend , npm run dev
 
